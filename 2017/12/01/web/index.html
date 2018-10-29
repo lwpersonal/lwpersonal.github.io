@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="总结," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="第三方接口 蚂蚁金服开放平台： https://docs.open.alipay.com/200/105518 微信开放平台： https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;amp;lang=zh_CN 微信支付： https://pay.weixin.qq.com/wiki/doc/api/index.html 腾讯开放平台：http">
+<meta name="keywords" content="总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端常用插件，知识点汇总">
+<meta property="og:url" content="https://lwpersonal.cn/2017/12/01/web/index.html">
+<meta property="og:site_name" content="安冉">
+<meta property="og:description" content="第三方接口 蚂蚁金服开放平台： https://docs.open.alipay.com/200/105518 微信开放平台： https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;amp;lang=zh_CN 微信支付： https://pay.weixin.qq.com/wiki/doc/api/index.html 腾讯开放平台：http">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-10-29T02:15:51.312Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端常用插件，知识点汇总">
+<meta name="twitter:description" content="第三方接口 蚂蚁金服开放平台： https://docs.open.alipay.com/200/105518 微信开放平台： https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;amp;lang=zh_CN 微信支付： https://pay.weixin.qq.com/wiki/doc/api/index.html 腾讯开放平台：http">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lwpersonal.cn/2017/12/01/web/"/>
+
+
+
+
+
+  <title>前端常用插件，知识点汇总 | 安冉</title>
+  
+
+
+
+
+
+
+
+
+  <style>
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+  0%,100% { transform:rotate(0)}
+  20%,60% { transform:rotate(-25deg) }
+  40%,80% { transform:rotate(10deg) }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
+  }
+}
+</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/lwpersonal" class="github-corner" aria-label="View source on Github">
+      <svg width="92" height="92" viewBox="0 0 250 250" style="fill:#151513;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true">
+        <path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path>
+        <path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path>
+        <path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path>
+      </svg>
+    </a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安冉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2017/12/01/web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端常用插件，知识点汇总</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-12-01T13:23:17+08:00">
+                2017-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2017/12/01/web/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2017/12/01/web/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="第三方接口"><a href="#第三方接口" class="headerlink" title="第三方接口"></a>第三方接口</h2><ol>
+<li>蚂蚁金服开放平台： <a href="https://docs.open.alipay.com/200/105518" target="_blank" rel="noopener">https://docs.open.alipay.com/200/105518</a></li>
+<li>微信开放平台： <a href="https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;lang=zh_CN" target="_blank" rel="noopener">https://open.weixin.qq.com/cgi-bin/index?t=home/index&amp;lang=zh_CN</a></li>
+<li>微信支付： <a href="https://pay.weixin.qq.com/wiki/doc/api/index.html" target="_blank" rel="noopener">https://pay.weixin.qq.com/wiki/doc/api/index.html</a></li>
+<li>腾讯开放平台：<a href="http://open.qq.com" target="_blank" rel="noopener">http://open.qq.com</a></li>
+<li>微博开放平台：<a href="http://open.weibo.com" target="_blank" rel="noopener">http://open.weibo.com</a></li>
+<li>腾讯信鸽推送：<a href="http://xg.qq.com" target="_blank" rel="noopener">http://xg.qq.com</a></li>
+</ol>
+<h2 id="UI-框架"><a href="#UI-框架" class="headerlink" title="UI 框架"></a>UI 框架</h2><ol start="7">
+<li>Element（vue）：<a href="http://element-cn.eleme.io/2.0/#/zh-CN" target="_blank" rel="noopener">http://element-cn.eleme.io/2.0/#/zh-CN</a></li>
+<li>Mint UI（vue）：<a href="https://mint-ui.github.io/docs/#/zh-cn2" target="_blank" rel="noopener">https://mint-ui.github.io/docs/#/zh-cn2</a></li>
+<li>Antd Design （react，react-native）：<a href="https://mobile.ant.design/docs/react/introduce-cn" target="_blank" rel="noopener">https://mobile.ant.design/docs/react/introduce-cn</a></li>
+<li>Bootstrap：<a href="http://www.bootcss.com" target="_blank" rel="noopener">http://www.bootcss.com</a></li>
+<li>Lottie（Android动画插件）：<a href="https://github.com/airbnb/lottie-android" target="_blank" rel="noopener">https://github.com/airbnb/lottie-android</a></li>
+<li>Weui（微信风格）：<a href="https://github.com/Tencent/weui.js" target="_blank" rel="noopener">https://github.com/Tencent/weui.js</a></li>
+<li>Highcharts（折线图曲线图）：<a href="https://www.hcharts.cn/demo/highcharts" target="_blank" rel="noopener">https://www.hcharts.cn/demo/highcharts</a></li>
+<li>Swiper（非常好用的轮播图组件）：<a href="http://www.swiper.com.cn" target="_blank" rel="noopener">http://www.swiper.com.cn</a></li>
+<li>CurveJs（很炫酷的动画文字线条）：<a href="https://alloyteam.github.io/curvejs" target="_blank" rel="noopener">https://alloyteam.github.io/curvejs</a></li>
+<li>Layui：<a href="http://www.layui.com" target="_blank" rel="noopener">http://www.layui.com</a></li>
+<li>Vuetify（vue）：<a href="https://vuetifyjs.com/vuetify/quick-start" target="_blank" rel="noopener">https://vuetifyjs.com/vuetify/quick-start</a></li>
+<li>Semantic UI：<a href="http://www.semantic-ui.cn/introduction/getting-started.html" target="_blank" rel="noopener">http://www.semantic-ui.cn/introduction/getting-started.html</a></li>
+<li>Material-UI：<a href="http://www.material-ui.com" target="_blank" rel="noopener">http://www.material-ui.com</a></li>
+<li>H-ui：<a href="http://www.h-ui.net/index.shtml" target="_blank" rel="noopener">http://www.h-ui.net/index.shtml</a></li>
+<li>MUI（移动端）：<a href="http://dev.dcloud.net.cn/mui" target="_blank" rel="noopener">http://dev.dcloud.net.cn/mui</a></li>
+<li>Amaze：<a href="http://amazeui.org" target="_blank" rel="noopener">http://amazeui.org</a></li>
+<li>AUI：<a href="http://www.auicss.com" target="_blank" rel="noopener">http://www.auicss.com</a></li>
+<li>FrozenUI：<a href="http://frozenui.github.io" target="_blank" rel="noopener">http://frozenui.github.io</a></li>
+<li>SUI：<a href="http://sui.taobao.org/sui/docs/index.html" target="_blank" rel="noopener">http://sui.taobao.org/sui/docs/index.html</a></li>
+<li>Pure：<a href="https://purecss.io" target="_blank" rel="noopener">https://purecss.io</a></li>
+<li>UIKit：<a href="https://getuikit.com" target="_blank" rel="noopener">https://getuikit.com</a></li>
+</ol>
+<h2 id="JaveScript"><a href="#JaveScript" class="headerlink" title="JaveScript"></a>JaveScript</h2><ol>
+<li>ECMAScript 6 入门：<a href="http://es6.ruanyifeng.com" target="_blank" rel="noopener">http://es6.ruanyifeng.com</a></li>
+<li>TypeScript：<a href="https://www.tslang.cn/samples/index.html" target="_blank" rel="noopener">https://www.tslang.cn/samples/index.html</a></li>
+<li>Lodash：<a href="https://lodash.com" target="_blank" rel="noopener">https://lodash.com</a></li>
+<li>腾讯前端知识库：<a href="https://github.com/AlloyTeam/Mars" target="_blank" rel="noopener">https://github.com/AlloyTeam/Mars</a></li>
+<li>MobX：<a href="http://cn.mobx.js.org" target="_blank" rel="noopener">http://cn.mobx.js.org</a></li>
+<li>MobX资料整合：<a href="https://github.com/mobxjs/awesome-mobx/blob/master/README-CN.md#%E5%8F%91%E8%A1%A8%E4%BD%9C%E5%93%81" target="_blank" rel="noopener">https://github.com/mobxjs/awesome-mobx/blob/master/README-CN.md#%E5%8F%91%E8%A1%A8%E4%BD%9C%E5%93%81</a></li>
+<li>Dart：<a href="http://www.dartlang.cc" target="_blank" rel="noopener">http://www.dartlang.cc</a></li>
+<li>CoffeeScript：<a href="http://coffee-script.org" target="_blank" rel="noopener">http://coffee-script.org</a></li>
+<li>异常监控：<a href="http://foio.github.io/babel-try-catch" target="_blank" rel="noopener">http://foio.github.io/babel-try-catch</a></li>
+<li>JS函数式编程：<a href="https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch1.html" target="_blank" rel="noopener">https://llh911001.gitbooks.io/mostly-adequate-guide-chinese/content/ch1.html</a></li>
+<li>JS函数式编程（阮一峰）：<a href="http://www.ruanyifeng.com/blog/2012/04/functional_programming.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2012/04/functional_programming.html</a></li>
+<li>尾调用优化（函数式编程）：<a href="http://www.ruanyifeng.com/blog/2015/04/tail-call.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/04/tail-call.html</a></li>
+<li>Moment.js（时间处理函数）：<a href="http://momentjs.cn" target="_blank" rel="noopener">http://momentjs.cn</a></li>
+</ol>
+<h2 id="Vue"><a href="#Vue" class="headerlink" title="Vue"></a>Vue</h2><ol>
+<li>官网：<a href="https://cn.vuejs.org" target="_blank" rel="noopener">https://cn.vuejs.org</a></li>
+<li>路由：<a href="https://router.vuejs.org/zh-cn" target="_blank" rel="noopener">https://router.vuejs.org/zh-cn</a></li>
+<li>Vuex文档：<a href="https://vuex.vuejs.org/zh-cn" target="_blank" rel="noopener">https://vuex.vuejs.org/zh-cn</a></li>
+<li>Vuex运用：<a href="https://vux.li/#/zh-CN/README" target="_blank" rel="noopener">https://vux.li/#/zh-CN/README</a></li>
+<li>Axios：<a href="https://www.kancloud.cn/yunye/axios/234845" target="_blank" rel="noopener">https://www.kancloud.cn/yunye/axios/234845</a></li>
+<li>Axios（GitHub）：<a href="https://github.com/imcvampire/vue-axios" target="_blank" rel="noopener">https://github.com/imcvampire/vue-axios</a></li>
+<li>Vue资料整合：<a href="https://github.com/keepfool/vue-tutorials" target="_blank" rel="noopener">https://github.com/keepfool/vue-tutorials</a></li>
+<li>Vue组件延迟加载：<a href="https://github.com/yeyuqiudeng/vue-lazy-render" target="_blank" rel="noopener">https://github.com/yeyuqiudeng/vue-lazy-render</a></li>
+<li>Vue+TypeScript：<a href="http://www.jianshu.com/p/286ceb8e866b" target="_blank" rel="noopener">http://www.jianshu.com/p/286ceb8e866b</a></li>
+<li>类Class风格Vue：<a href="https://github.com/vuejs/vue-class-component#vue-class-component" target="_blank" rel="noopener">https://github.com/vuejs/vue-class-component#vue-class-component</a></li>
+<li>Vue Property Decorator（可和上一个结合使用）：<a href="https://github.com/kaorun343/vue-property-decorator" target="_blank" rel="noopener">https://github.com/kaorun343/vue-property-decorator</a></li>
+<li>vuex-class：<a href="https://github.com/ktsn/vuex-class" target="_blank" rel="noopener">https://github.com/ktsn/vuex-class</a></li>
+<li>Weex（类ReactNative的开发框架）：<a href="http://weex.apache.org/cn" target="_blank" rel="noopener">http://weex.apache.org/cn</a><h2 id="React-Native、React"><a href="#React-Native、React" class="headerlink" title="React Native、React"></a>React Native、React</h2></li>
+<li>RN特殊问题汇总：<a href="http://blog.csdn.net/qq_25243451/article/details/78089089" target="_blank" rel="noopener">http://blog.csdn.net/qq_25243451/article/details/78089089</a></li>
+<li>如何设计开发App：<a href="https://www.zhihu.com/question/20936415" target="_blank" rel="noopener">https://www.zhihu.com/question/20936415</a></li>
+<li>React：<a href="https://hulufei.gitbooks.io/react-tutorial/content/index.html" target="_blank" rel="noopener">https://hulufei.gitbooks.io/react-tutorial/content/index.html</a></li>
+<li>官网：<a href="https://reactnative.cn/docs/0.48/getting-started.html" target="_blank" rel="noopener">https://reactnative.cn/docs/0.48/getting-started.html</a></li>
+<li>东翌编程：<a href="http://www.dongyibiancheng.com/doc/react-native" target="_blank" rel="noopener">http://www.dongyibiancheng.com/doc/react-native</a></li>
+<li>React入门教程（阮一峰）：<a href="http://www.ruanyifeng.com/blog/2015/03/react.html" target="_blank" rel="noopener">http://www.ruanyifeng.com/blog/2015/03/react.html</a></li>
+<li>RN环境搭建：<a href="http://bbs.reactnative.cn/topic/10/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAreact-native-android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83" target="_blank" rel="noopener">http://bbs.reactnative.cn/topic/10/%E5%9C%A8windows%E4%B8%8B%E6%90%AD%E5%BB%BAreact-native-android%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83</a></li>
+<li>本地存储封装：<a href="https://github.com/sunnylqm/react-native-storage" target="_blank" rel="noopener">https://github.com/sunnylqm/react-native-storage</a></li>
+<li>Navigation（导航）：<a href="https://reactnavigation.org/" target="_blank" rel="noopener">https://reactnavigation.org/</a></li>
+<li>获取设备更多的尺寸信息：<a href="https://github.com/Sunhat/react-native-extra-dimensions-android" target="_blank" rel="noopener">https://github.com/Sunhat/react-native-extra-dimensions-android</a></li>
+<li>RN学习专题（江清清）：<a href="http://www.lcode.org/react-native" target="_blank" rel="noopener">http://www.lcode.org/react-native</a></li>
+<li>RN组件汇总：<a href="http://www.jianshu.com/p/636dea5054d9" target="_blank" rel="noopener">http://www.jianshu.com/p/636dea5054d9</a></li>
+<li>RN实战视屏：<a href="http://bbs.reactnative.cn/topic/759/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99react-native%E5%AE%9E%E6%88%98%E5%BC%80%E5%8F%91%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B-%E6%9B%B4%E6%96%B0%E5%88%B070%E9%9B%86%E5%95%A6" target="_blank" rel="noopener">http://bbs.reactnative.cn/topic/759/%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99react-native%E5%AE%9E%E6%88%98%E5%BC%80%E5%8F%91%E8%A7%86%E9%A2%91%E6%95%99%E7%A8%8B-%E6%9B%B4%E6%96%B0%E5%88%B070%E9%9B%86%E5%95%A6</a></li>
+<li>RN中使用for循环：<a href="http://bbs.reactnative.cn/topic/845/%E5%9C%A8render%E5%87%BD%E6%95%B0%E4%B8%AD%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8for%E5%BE%AA%E7%8E%AF/2" target="_blank" rel="noopener">http://bbs.reactnative.cn/topic/845/%E5%9C%A8render%E5%87%BD%E6%95%B0%E4%B8%AD%E6%80%8E%E4%B9%88%E4%BD%BF%E7%94%A8for%E5%BE%AA%E7%8E%AF/2</a></li>
+<li>RN动画详解：<a href="http://www.alloyteam.com/2016/01/reactnative-animated" target="_blank" rel="noopener">http://www.alloyteam.com/2016/01/reactnative-animated</a></li>
+<li>RN微信平台（react-native-wechat）：<a href="http://www.jianshu.com/p/9ee774ec21d5" target="_blank" rel="noopener">http://www.jianshu.com/p/9ee774ec21d5</a></li>
+<li>RN，QQ平台（react-native-qq）：<a href="https://github.com/reactnativecn/react-native-qq" target="_blank" rel="noopener">https://github.com/reactnativecn/react-native-qq</a></li>
+<li>RN微博（react-native-weibo）：<a href="https://github.com/reactnativecn/react-native-weibo" target="_blank" rel="noopener">https://github.com/reactnativecn/react-native-weibo</a></li>
+<li>RN微信接口配置教程：<a href="http://www.lcode.org/%E8%B6%85%E8%AF%A6%E7%BB%86react-native%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%A5%BD%E5%8F%8B%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD-androidios%E5%8F%8C%E5%B9%B3%E5%8F%B0/" target="_blank" rel="noopener">http://www.lcode.org/%E8%B6%85%E8%AF%A6%E7%BB%86react-native%E5%AE%9E%E7%8E%B0%E5%BE%AE%E4%BF%A1%E5%A5%BD%E5%8F%8B%E6%9C%8B%E5%8F%8B%E5%9C%88%E5%88%86%E4%BA%AB%E5%8A%9F%E8%83%BD-androidios%E5%8F%8C%E5%B9%B3%E5%8F%B0/</a></li>
+<li>RN支付宝微信接口配置教程：<a href="http://blog.csdn.net/sinat_17775997/article/details/73729442" target="_blank" rel="noopener">http://blog.csdn.net/sinat_17775997/article/details/73729442</a></li>
+<li>react-native-loader（加载动画）：<a href="https://github.com/mohebifar/react-native-loader" target="_blank" rel="noopener">https://github.com/mohebifar/react-native-loader</a></li>
+<li>react-native-loading-w（加载动画Toast样式）：<a href="https://github.com/wenxucheng/react-native-loading-w" target="_blank" rel="noopener">https://github.com/wenxucheng/react-native-loading-w</a></li>
+<li>react-native-animatable（动画封装）：<a href="https://github.com/oblador/react-native-animatable" target="_blank" rel="noopener">https://github.com/oblador/react-native-animatable</a></li>
+<li>常用第三方组件：<a href="https://segmentfault.com/a/1190000008878128" target="_blank" rel="noopener">https://segmentfault.com/a/1190000008878128</a></li>
+<li>调用系统原生功能（相册通讯录等）：<a href="http://www.jianshu.com/p/e5f74c2f74c8" target="_blank" rel="noopener">http://www.jianshu.com/p/e5f74c2f74c8</a></li>
+<li>验证码倒计时：<a href="http://www.jianshu.com/p/51736baead49" target="_blank" rel="noopener">http://www.jianshu.com/p/51736baead49</a></li>
+<li>MD5等加密库：<a href="http://www.qingpingshan.com/jb/javascript/237722.html" target="_blank" rel="noopener">http://www.qingpingshan.com/jb/javascript/237722.html</a></li>
+<li>Base64：<a href="http://dev.dafan.info/detail/244963?p=20" target="_blank" rel="noopener">http://dev.dafan.info/detail/244963?p=20</a></li>
+<li>图片加载处理：<a href="https://www.npmjs.com/package/mkp-react-native-image-view" target="_blank" rel="noopener">https://www.npmjs.com/package/mkp-react-native-image-view</a></li>
+<li>动画按钮：<a href="https://github.com/mastermoo/react-native-action-button" target="_blank" rel="noopener">https://github.com/mastermoo/react-native-action-button</a></li>
+<li>模态封装Modal：<a href="https://github.com/magicismight/react-native-root-modal" target="_blank" rel="noopener">https://github.com/magicismight/react-native-root-modal</a></li>
+<li>react-native-swiper（轮播图）：<a href="https://github.com/leecade/react-native-swiper" target="_blank" rel="noopener">https://github.com/leecade/react-native-swiper</a></li>
+<li>修改页面跳转动画效果：<a href="https://www.trustedhousesitters.com/engineering/code/react-native-navigation-custom-scene-screen-transitions-and-interpolations/" target="_blank" rel="noopener">https://www.trustedhousesitters.com/engineering/code/react-native-navigation-custom-scene-screen-transitions-and-interpolations/</a></li>
+<li>自定义页面跳转动画：<a href="http://blog.csdn.net/sinat_17775997/article/details/74908728" target="_blank" rel="noopener">http://blog.csdn.net/sinat_17775997/article/details/74908728</a></li>
+<li>RN配置字体文件：<a href="http://www.jianshu.com/p/96d5c66791c3" target="_blank" rel="noopener">http://www.jianshu.com/p/96d5c66791c3</a></li>
+<li>RN修改app图标、启动图：<a href="http://www.cnblogs.com/allenxieyusheng/p/5804023.html" target="_blank" rel="noopener">http://www.cnblogs.com/allenxieyusheng/p/5804023.html</a></li>
+<li>RN修改app名，图标、启动图等：<a href="http://blog.csdn.net/sinat_17775997/article/details/70347606" target="_blank" rel="noopener">http://blog.csdn.net/sinat_17775997/article/details/70347606</a></li>
+<li>RN设置启动图：<a href="http://www.myronliu.com/2016/07/22/react-native/react-native_launch" target="_blank" rel="noopener">http://www.myronliu.com/2016/07/22/react-native/react-native_launch</a></li>
+<li>RN，ScrollView滑动冲突处理：<a href="http://blog.csdn.net/xiaohanluo/article/details/52130923" target="_blank" rel="noopener">http://blog.csdn.net/xiaohanluo/article/details/52130923</a></li>
+<li>安卓back健处理：<a href="http://bbs.reactnative.cn/topic/480/%E5%AE%89%E5%8D%93back%E9%94%AE%E7%9A%84%E5%A4%84%E7%90%86-%E5%9F%BA%E6%9C%AC-%E9%AB%98%E7%BA%A7%E7%AF%87" target="_blank" rel="noopener">http://bbs.reactnative.cn/topic/480/%E5%AE%89%E5%8D%93back%E9%94%AE%E7%9A%84%E5%A4%84%E7%90%86-%E5%9F%BA%E6%9C%AC-%E9%AB%98%E7%BA%A7%E7%AF%87</a></li>
+<li>跨组件通信（淘宝）：<a href="http://taobaofed.org/blog/2016/11/17/react-components-communication" target="_blank" rel="noopener">http://taobaofed.org/blog/2016/11/17/react-components-communication</a></li>
+</ol>
+<p>不定时更新</p>
+<p>原文链接：<a href="http://blog.csdn.net/qq_25243451/article/details/78685657" target="_blank" rel="noopener">http://blog.csdn.net/qq_25243451/article/details/78685657</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;margin: 20px 0 0;">-------------正文到此结束<i class="fa fa-paw"></i>转载请注明原址-------------</div>
+    
+</div>
+      </div>
+      <div>
+        
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/总结/" rel="tag"># 总结</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/29/vue_props_change_ts/" rel="next" title="Vue2实现子组件改变父子组件的数据(TS版)">
+                <i class="fa fa-chevron-left"></i> Vue2实现子组件改变父子组件的数据(TS版)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/15/web_bug/" rel="prev" title="前端特殊错误，Bug汇总">
+                前端特殊错误，Bug汇总 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="安冉" />
+            
+              <p class="site-author-name" itemprop="name">安冉</p>
+              <p class="site-description motion-element" itemprop="description">温佳伟的个人博客<安冉></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lwpersonal" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/xue-wu-zhi-jing-9-15/activities" target="_blank" title="知乎">
+                      知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/dc0cf2cb01f8" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://me.csdn.net/qq_25243451" target="_blank" title="CSDN">
+                      CSDN</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://segmentfault.com/u/lwpersonal" target="_blank" title="SegmentFault">
+                      SegmentFault</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/58c7826744d904006808e3d4" target="_blank" title="掘金">
+                      掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/oQCXjovhhoCpBUf" target="_blank" title="Twitter">
+                      Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/profile.php?id=100015842580113" target="_blank" title="FaceBook">
+                      FaceBook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+
+  <div class="">
+    <span id="busuanzi_container_site_uv">
+      本站总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;次
+    </span>
+  </div>
+
+
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共&nbsp;28.7k&nbsp;字</span>
+  </div>
+
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第三方接口"><span class="nav-number">1.</span> <span class="nav-text">第三方接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI-框架"><span class="nav-number">2.</span> <span class="nav-text">UI 框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JaveScript"><span class="nav-number">3.</span> <span class="nav-text">JaveScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue"><span class="nav-number">4.</span> <span class="nav-text">Vue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Native、React"><span class="nav-number">5.</span> <span class="nav-text">React Native、React</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安冉</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytQ99i30';
+      var conf = '77eda6405b43078162120f53cb1c849f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <!-- <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script> -->
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

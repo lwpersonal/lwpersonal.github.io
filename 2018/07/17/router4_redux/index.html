@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="React," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一直非常喜欢 vue-cli 搭建的项目环境，自己实现也比较麻烦，于是最近学习 React 时想着用 vue-cli 改造一个 React 的项目环境。基础的版本在这里 =&amp;gt; Module_React然后又想着给项目加一些常用的插件，例如 router 和 redux 管理等。本篇博客的 Demo 模板在 relase@redux 分支下  react-router多出了一个 react-r">
+<meta name="keywords" content="React">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Router@4.0 + Redux 配置使用">
+<meta property="og:url" content="https://lwpersonal.cn/2018/07/17/router4_redux/index.html">
+<meta property="og:site_name" content="安冉">
+<meta property="og:description" content="一直非常喜欢 vue-cli 搭建的项目环境，自己实现也比较麻烦，于是最近学习 React 时想着用 vue-cli 改造一个 React 的项目环境。基础的版本在这里 =&amp;gt; Module_React然后又想着给项目加一些常用的插件，例如 router 和 redux 管理等。本篇博客的 Demo 模板在 relase@redux 分支下  react-router多出了一个 react-r">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://img-blog.csdn.net/20180717171425436?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:image" content="https://img-blog.csdn.net/20180717175747185?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+<meta property="og:updated_time" content="2018-10-29T02:15:51.303Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Router@4.0 + Redux 配置使用">
+<meta name="twitter:description" content="一直非常喜欢 vue-cli 搭建的项目环境，自己实现也比较麻烦，于是最近学习 React 时想着用 vue-cli 改造一个 React 的项目环境。基础的版本在这里 =&amp;gt; Module_React然后又想着给项目加一些常用的插件，例如 router 和 redux 管理等。本篇博客的 Demo 模板在 relase@redux 分支下  react-router多出了一个 react-r">
+<meta name="twitter:image" content="https://img-blog.csdn.net/20180717171425436?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lwpersonal.cn/2018/07/17/router4_redux/"/>
+
+
+
+
+
+  <title>Router@4.0 + Redux 配置使用 | 安冉</title>
+  
+
+
+
+
+
+
+
+
+  <style>
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+  0%,100% { transform:rotate(0)}
+  20%,60% { transform:rotate(-25deg) }
+  40%,80% { transform:rotate(10deg) }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
+  }
+}
+</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/lwpersonal" class="github-corner" aria-label="View source on Github">
+      <svg width="92" height="92" viewBox="0 0 250 250" style="fill:#151513;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true">
+        <path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path>
+        <path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path>
+        <path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path>
+      </svg>
+    </a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安冉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/07/17/router4_redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Router@4.0 + Redux 配置使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-17T18:04:32+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/07/17/router4_redux/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/07/17/router4_redux/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一直非常喜欢 vue-cli 搭建的项目环境，自己实现也比较麻烦，于是最近学习 React 时想着用 vue-cli 改造一个 React 的项目环境。<br>基础的版本在这里 =&gt; <a href="https://github.com/lwpersonal/module_React" target="_blank" rel="noopener">Module_React</a><br>然后又想着给项目加一些常用的插件，例如 router 和 redux 管理等。<br>本篇博客的 Demo 模板在 <a href="https://github.com/lwpersonal/module_React/tree/relase@redux" target="_blank" rel="noopener">relase@redux</a> 分支下</p>
+<hr>
+<h1 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h1><p>多出了一个 react-router-dom 的包，他比 react-router 多了一些新的插件，可以不需要引用 react-router。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装插件</span><br><span class="line">cnpm i -S react-router react-router-dom</span><br></pre></td></tr></table></figure>
+<p>4.0 版本需要注意的是，Link 必须要包在Router 标签内，否则会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// router.js</span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import &#123; BrowserRouter as Router, Link, Route &#125; from &apos;react-router-dom&apos;</span><br><span class="line"></span><br><span class="line">import Home from &apos;../containers/home&apos;</span><br><span class="line">import View from &apos;../containers/view&apos;</span><br><span class="line"></span><br><span class="line">// router 下如果有多个元素必须用一个盒子包起来，exact 字段表示完全匹配，即 /view 不会渲染 / ，如果没有的话 /view 会渲染 Home 组件 + View 组件</span><br><span class="line">export default () =&gt; &#123;</span><br><span class="line">  return (&lt;Router&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Route path=&quot;/&quot; exact component=&#123;Home&#125;/&gt;</span><br><span class="line">      &lt;Route path=&quot;/view&quot; component=&#123;View&#125;/&gt;</span><br><span class="line"></span><br><span class="line">      &lt;p&gt;&lt;Link to=&quot;/&quot;&gt;home&lt;/Link&gt;&lt;/p&gt;</span><br><span class="line">      &lt;p&gt;&lt;Link to=&quot;/view&quot;&gt;view&lt;/Link&gt;&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/Router&gt;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">...</span><br><span class="line">import CreateRouter from &apos;./router&apos;</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">	    &#123;/* 渲染路由 */&#125;</span><br><span class="line">        &#123;CreateRouter()&#125;</span><br><span class="line">        &lt;div className=&quot;App-header&quot;&gt;</span><br><span class="line">          &lt;h2&gt;hello world !&lt;/h2&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>如果需要代码跳转地址，可以这样。更多的 api 可以自行搜索。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">goUrl() &#123;</span><br><span class="line">    const &#123; history &#125; = this.props</span><br><span class="line">    history.push(&apos;/&apos;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h1><p>redux 的概念比较繁琐，去网上看各种教程后感觉似懂非懂，果然还是要去认真了解一下相关概念自己动手。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装</span><br><span class="line">cnpm i -S redux-thunk redux react-redux</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Store</strong><br>Store 用来保存数据，一个应用只能有一个 Store。<br>Redux 提供 <strong>createStore</strong> 来生成一个 Store。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getState() // 获取 state</span><br><span class="line">dispatch(action) // 更新 state，View 发出 Action 的唯一方式</span><br><span class="line">subscribe(listener) // 注册监听器</span><br><span class="line">subscribe(listener) // 返回的函数注销监听器</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">import &#123; createStore &#125; from &apos;redux&apos;</span><br><span class="line">let store = createStore()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>State</strong><br>State 是包含当前时点的所有数据的集合。<br>State 可以通过 store.getState() 获得。每一个时点的 State 都对应一个视图(View)</p>
+</li>
+<li><p><strong>Action</strong><br>State 的更改会触发 View 的变化，同样 View 的更改需要对应到 State，Action 的作用就是当 View 更改时去通知 State 更改。<br>Action 是一个简单的 JS 对象，必须要包含 <strong>type</strong> 属性，用来标识 Action 的名称，其他属性自由设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	  type: &apos;ADD_LIST&apos;,</span><br><span class="line">	  content: &apos;LIST-one&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改变 State 的唯一方法就是使用 Action。</p>
+</li>
+<li><p><strong>Reducer</strong><br>Store 接收到 Action 后，会计算生成一个新的 State，Reducer 指定了状态的变化如何响应 Action 并反馈给 Store。</p>
+<p>Reducer 是一个纯函数，即相同的输入输出结果相同。返回一个新的 State。</p>
+<p>store.dispatch方法会触发 Reducer 的自动执行，把 reducer 传入 creatStore 即可<br>import { createStore } from ‘redux’;<br>const store = createStore(reducer);</p>
+<p>Redux 基本上包含这几个概念。</p>
+<p>先实现一个简单的 demo<br>结构如下<br><img src="https://img-blog.csdn.net/20180717171425436?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 先改造一下 main.js</span><br><span class="line">// 这里创建全局的一个 store</span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;</span><br><span class="line">import &#123; Provider &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">import getStore from &apos;./store&apos;</span><br><span class="line">import CreateRouter from &apos;./router&apos;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">        &#123;CreateRouter()&#125;</span><br><span class="line">        &lt;div className=&quot;App-header&quot;&gt;</span><br><span class="line">          &lt;h2&gt;hello world !&lt;/h2&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = getStore()</span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;/Provider&gt;,</span><br><span class="line">  document.body.appendChild(document.createElement(&apos;div&apos;))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// store/index.js</span><br><span class="line">// 创建 store 的函数</span><br><span class="line"></span><br><span class="line">import &#123; createStore, compose, applyMiddleware &#125; from &apos;redux&apos;</span><br><span class="line">import thunkMiddleware from &apos;redux-thunk&apos;</span><br><span class="line"></span><br><span class="line">import Reducer from &apos;../reducer&apos;</span><br><span class="line"></span><br><span class="line">const createStoreWithMiddleware = compose(</span><br><span class="line">  applyMiddleware(thunkMiddleware)</span><br><span class="line">)(createStore)</span><br><span class="line"></span><br><span class="line">export default () =&gt; createStoreWithMiddleware(Reducer)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// reducer/index.js</span><br><span class="line">// 绑定多个 reducer</span><br><span class="line"></span><br><span class="line">import &#123; combineReducers &#125; from &apos;redux&apos;</span><br><span class="line"></span><br><span class="line">import home from &apos;./home&apos;</span><br><span class="line"></span><br><span class="line">const rootReducer = combineReducers(&#123;</span><br><span class="line">  home</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default rootReducer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// reducer/home/index.js</span><br><span class="line">// 这里是单个的 reducer，在reducer/index.js 中绑定</span><br><span class="line"></span><br><span class="line">export default (state = &#123;&#125;, action) =&gt; &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case &apos;ADD&apos;:</span><br><span class="line">      return &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        log: &apos;yes&apos;,</span><br><span class="line">        list: action.list || 0</span><br><span class="line">      &#125;</span><br><span class="line">    default:</span><br><span class="line">      return &#123; list: 0 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在组件中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">// View</span><br><span class="line"></span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import &#123; PropTypes &#125; from &apos;prop-types&apos;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">class View extends Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      msg: &apos;view&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  goUrl() &#123;</span><br><span class="line">    const &#123; history &#125; = this.props</span><br><span class="line">    history.push(&apos;/&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">  addNum() &#123;</span><br><span class="line">    const &#123; dispatch, home &#125; = this.props</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      type: &apos;ADD&apos;,</span><br><span class="line">      list: home.list + 1</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  btnSty() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      width: &apos;100px&apos;,</span><br><span class="line">      height: &apos;40px&apos;,</span><br><span class="line">      border: &apos;1px solid rgba(0,0,0,0.1)&apos;,</span><br><span class="line">      background: &apos;rgba(0,0,0,0.1)&apos;,</span><br><span class="line">      borderRadius: &apos;3px&apos;,</span><br><span class="line">      cursor: &apos;pointer&apos;,</span><br><span class="line">      textAlign: &apos;center&apos;,</span><br><span class="line">      lineHeight: &apos;40px&apos;,</span><br><span class="line">      userSelect: &apos;none&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p className=&quot;view&quot;&gt;list:&#123;this.props.home.list&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&#123;this.props.examinationId&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p style=&#123;&#123;...this.btnSty()&#125;&#125; onClick=&#123;() =&gt; &#123; this.goUrl() &#125;&#125;&gt;to home&lt;/p&gt;</span><br><span class="line">        &lt;p style=&#123;&#123;...this.btnSty()&#125;&#125; onClick=&#123; this.addNum.bind(this) &#125;&gt;Add Num&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">export default connect(state =&gt; (&#123;</span><br><span class="line">  home: state.home,</span><br><span class="line">  examinationId: 1</span><br><span class="line">&#125;))(View)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// Home</span><br><span class="line"></span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import &#123; PropTypes &#125; from &apos;prop-types&apos;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">class Home extends Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      msg: &apos;home&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p className=&quot;home&quot;&gt;&#123;this.state.msg&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&#123;this.props.home.list&#125;&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(state =&gt; (&#123;</span><br><span class="line">  home: state.home</span><br><span class="line">&#125;))(Home)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180717175747185?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>然后在 /view 路由下会看到一个 low 到爆的页面，点击 Add Num 可以看到已经触发了视图的更新。<br>切换到 / 路由下 list 的状态保持不变，好了一个简单的 redux Demo 已经实现了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;margin: 20px 0 0;">-------------正文到此结束<i class="fa fa-paw"></i>转载请注明原址-------------</div>
+    
+</div>
+      </div>
+      <div>
+        
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/10/web_interview_teacher/" rel="next" title="前端面试（面试官篇）">
+                <i class="fa fa-chevron-left"></i> 前端面试（面试官篇）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/13/gitlab_ci/" rel="prev" title="使用 .gitlab-ci.yml 配置作业">
+                使用 .gitlab-ci.yml 配置作业 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="安冉" />
+            
+              <p class="site-author-name" itemprop="name">安冉</p>
+              <p class="site-description motion-element" itemprop="description">温佳伟的个人博客<安冉></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lwpersonal" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/xue-wu-zhi-jing-9-15/activities" target="_blank" title="知乎">
+                      知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/dc0cf2cb01f8" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://me.csdn.net/qq_25243451" target="_blank" title="CSDN">
+                      CSDN</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://segmentfault.com/u/lwpersonal" target="_blank" title="SegmentFault">
+                      SegmentFault</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/58c7826744d904006808e3d4" target="_blank" title="掘金">
+                      掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/oQCXjovhhoCpBUf" target="_blank" title="Twitter">
+                      Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/profile.php?id=100015842580113" target="_blank" title="FaceBook">
+                      FaceBook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+
+  <div class="">
+    <span id="busuanzi_container_site_uv">
+      本站总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;次
+    </span>
+  </div>
+
+
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共&nbsp;28.7k&nbsp;字</span>
+  </div>
+
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#react-router"><span class="nav-number">1.</span> <span class="nav-text">react-router</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#redux"><span class="nav-number">2.</span> <span class="nav-text">redux</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安冉</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytQ99i30';
+      var conf = '77eda6405b43078162120f53cb1c849f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <!-- <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script> -->
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

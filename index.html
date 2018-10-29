@@ -284,7 +284,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/09/28/hello-world/">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/09/13/gitlab_ci/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="安冉">
@@ -303,7 +303,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/28/hello-world/" itemprop="url">ReactNative</a></h1>
+                <a class="post-title-link" href="/2018/09/13/gitlab_ci/" itemprop="url">使用 .gitlab-ci.yml 配置作业</a></h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-28T14:40:51+08:00">
-                2018-09-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-13T17:03:14+08:00">
+                2018-09-13
               </time>
             
 
@@ -357,8 +357,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/09/28/hello-world/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::https://lwpersonal.cn/2018/09/28/hello-world/" class="cy_cmt_count" data-xid="2018/09/28/hello-world/" itemprop="commentsCount" ></span>
+                <a href="/2018/09/13/gitlab_ci/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/09/13/gitlab_ci/" class="cy_cmt_count" data-xid="2018/09/13/gitlab_ci/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  4
+                  5
                 </span>
               
             </div>
@@ -419,39 +419,389 @@
       
         
           
-            <p>接触ReactNative也已经一段时间了，把自己遇到的一些问题总结出来希望能帮助到正在踩坑的人。</p>
-<hr>
-<h2 id="ListView"><a href="#ListView" class="headerlink" title="ListView"></a>ListView</h2><hr>
-<p> ListView是RN中的使用频率非常高的组件，问题却也层出不穷,FlatList等列表组件类似。</p>
+            <p>整理一下 .gitlab-ci.yml 文件的配置</p>
+<p><a href="https://docs.gitlab.com/ee/ci/yaml/" target="_blank" rel="noopener">原文档地址</a></p>
+<h2 id="job"><a href="#job" class="headerlink" title="job"></a><strong>job</strong></h2><p> job 是一组具有约束的作业，可以指定无限数量的 job 。</p>
+<p> job 被定义为具有任意名称的顶级元素，并且始终必须至少包含该 script 子句。</p>
+<p> job 必须具有唯一的名称，下面是一些保留的关键字不可以作为 job 的名称。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">image</span><br><span class="line">services</span><br><span class="line">stages</span><br><span class="line">types</span><br><span class="line">before_script</span><br><span class="line">after_script</span><br><span class="line">variables</span><br><span class="line">cache</span><br></pre></td></tr></table></figure></p>
+<p> 作业由定义作业行为的参数列表定义</p>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>是否必须</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>script</td>
+<td>yes</td>
+<td>定义由Runner执行的shell脚本</td>
+</tr>
+<tr>
+<td>extends</td>
+<td>no</td>
+<td>定义此 job 将继承的配置条目</td>
+</tr>
+<tr>
+<td>image</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-image-and-services-from-gitlab-ciyml" target="_blank" rel="noopener">使用 Docker 镜像</a></td>
+</tr>
+<tr>
+<td>services</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-image-and-services-from-gitlab-ciyml" target="_blank" rel="noopener">使用 Docker 服务</a></td>
+</tr>
+<tr>
+<td>stage</td>
+<td>no</td>
+<td>定义 job 阶段（默认：test）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>no</td>
+<td>stage 的别名</td>
+</tr>
+<tr>
+<td>variables</td>
+<td>no</td>
+<td>在 job 级别定义 job 变量</td>
+</tr>
+<tr>
+<td>only</td>
+<td>no</td>
+<td>定义为其创建 job 的 git refs 列表</td>
+</tr>
+<tr>
+<td>except</td>
+<td>no</td>
+<td>定义未创建 job 的 git refs 列表</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>no</td>
+<td>定义用于选择Runner的标记列表</td>
+</tr>
+<tr>
+<td>allow_failure</td>
+<td>no</td>
+<td>允许 job 失败，失败的 job 不会贡献 commit status</td>
+</tr>
+<tr>
+<td>when</td>
+<td>no</td>
+<td>定义何时运行 job 。可以是 on_success，on_failure，always 或 manual</td>
+</tr>
+<tr>
+<td>dependencies</td>
+<td>no</td>
+<td>定义 job 所依赖的其他 job ，以便您可以在它们之间传递 artifacts</td>
+</tr>
+<tr>
+<td>extends</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#artifacts" target="_blank" rel="noopener">job artifacts 依赖列表</a></td>
+</tr>
+<tr>
+<td>cache</td>
+<td>no</td>
+<td>定义后续运行之间应缓存的文件列表</td>
+</tr>
+<tr>
+<td>before_script</td>
+<td>no</td>
+<td>覆盖 job 前执行的一组命令</td>
+</tr>
+<tr>
+<td>after_script</td>
+<td>no</td>
+<td>覆盖 job 后执行的一组命令</td>
+</tr>
+<tr>
+<td>environment</td>
+<td>no</td>
+<td>定义此 job 完成部署的环境名称</td>
+</tr>
+<tr>
+<td>coverage</td>
+<td>no</td>
+<td>定义给定 job 的代码覆盖率设置</td>
+</tr>
+<tr>
+<td>retry</td>
+<td>no</td>
+<td>定义在发生故障时可以自动重试 job 的次数</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
 <ul>
-<li><p>首先是row中的视图不能随着state或Mobx而实时更新，如果把样式绑定到state中使用this.setState()方法更改数据后会发现，更改数据后视图无法更改，只有新渲染的row才会应用新的样式。解决方法是将row单独抽离为一个组件，然后可以完美更改。</p>
-</li>
-<li><p>将row单独分离后可以更改单个row的样式，但是需要批量更改样式时就又遇到不能同时更改视图的问题。如下示例(FlatList)：</p>
+<li>extends</li>
+</ul>
+<blockquote>
+<p>在 GitLab 11.3 中引入</p>
+</blockquote>
+<p>extends 定义要使用的 job extends 将继承的条目名称。</p>
+<p>extends 替代使用更灵活和可读的 <a href="https://docs.gitlab.com/ee/ci/yaml/#anchors" target="_blank" rel="noopener">YAML</a> 锚点。</p>
+<p>例如下面两段代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.tests:</span><br><span class="line">  only:</span><br><span class="line">    refs:</span><br><span class="line">      - branches</span><br><span class="line"></span><br><span class="line">rspec:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake rspec</span><br><span class="line">  stage: test</span><br><span class="line">  only:</span><br><span class="line">    variables:</span><br><span class="line">      - $RSPEC</span><br></pre></td></tr></table></figure></p>
+<p>在上面的示例中，rspec作业将从 .tests 模板继承。GitLab 将执行反向深度合并，这意味着它将以递归方式合并 rspec 内容 </p>
+<p>.tests，并且将导致以下配置 rspec 作业：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rspec:</span><br><span class="line">  script: rake rspec</span><br><span class="line">  stage: test</span><br><span class="line">  only:</span><br><span class="line">    refs:</span><br><span class="line">      - branches</span><br><span class="line">    variables:</span><br><span class="line">      - $RSPEC</span><br></pre></td></tr></table></figure></p>
+<p>.tests在此示例中是<strong>隐藏密钥</strong>，但也可以从常规作业继承。</p>
+<p><strong>隐藏密钥：</strong></p>
+<blockquote>
+<p>在 GitLab 8.6 和 GitLab Runner v1.1.1 中引入。</p>
+</blockquote>
+<p>如果要暂时“禁用”作业，而不是注释掉定义作业的所有行，可以像下面这样</p>
+<p>你可以用点（.）开始它的名字，它不会被 GitLab CI 处理。在以下示例中，.hidden_job 将被忽略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 注释</span><br><span class="line">#hidden_job:</span><br><span class="line">#  script:</span><br><span class="line">#    - run test</span><br><span class="line"></span><br><span class="line">// 隐藏密钥</span><br><span class="line">.hidden_job:</span><br><span class="line">  script:</span><br><span class="line">    - run test</span><br></pre></td></tr></table></figure>
+<p>extends支持多级继承，但不建议使用三级以上的继承。支持的最大嵌套级别为10级。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.tests:</span><br><span class="line">  only:</span><br><span class="line">    - pushes</span><br><span class="line"></span><br><span class="line">.rspec:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake rspec</span><br><span class="line"></span><br><span class="line">rspec 1:</span><br><span class="line">  variables:</span><br><span class="line">    RSPEC_SUITE: &apos;1&apos;</span><br><span class="line">  extends: .rspec</span><br><span class="line"></span><br><span class="line">rspec 2:</span><br><span class="line">  variables:</span><br><span class="line">    RSPEC_SUITE: &apos;2&apos;</span><br><span class="line">  extends: .rspec</span><br><span class="line"></span><br><span class="line">spinach:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake spinach</span><br></pre></td></tr></table></figure>
+<p>extends 跨配置文件结合使用 include 。</p>
+<p><strong>YAML：</strong></p>
+<p>YAML有一个名为“anchors”的便捷功能，可让您轻松复制文档中的内容。Anchor可用于复制/继承属性，是与隐藏键 一起使<br>用以提供作业模板的完美示例。</p>
+<p>以下示例使用锚点和映射合并。它将创建两个作业， test1并且test2将继承参数.job_template，每个作业都有自己定义的自<br>script定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.job_template: &amp;job_definition  # Hidden key that defines an anchor named &apos;job_definition&apos;</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line"></span><br><span class="line">test1:</span><br><span class="line">  &lt;&lt;: *job_definition           # Merge the contents of the &apos;job_definition&apos; alias</span><br><span class="line">  script:</span><br><span class="line">    - test1 project</span><br><span class="line"></span><br><span class="line">test2:</span><br><span class="line">  &lt;&lt;: *job_definition           # Merge the contents of the &apos;job_definition&apos; alias</span><br><span class="line">  script:</span><br><span class="line">    - test2 project</span><br></pre></td></tr></table></figure>
+<p>&amp; 设置 anchor（job_definition）的名称，&lt;&lt; 意味着“将给定的哈希合并到当前的哈希”，并 * 包括命名锚（ job_definition ）。扩展版本如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.job_template:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line"></span><br><span class="line">test1:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line">  script:</span><br><span class="line">    - test1 project</span><br><span class="line"></span><br><span class="line">test2:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line">  script:</span><br><span class="line">    - test2 project</span><br></pre></td></tr></table></figure>
+<p>让我们看另一个例子。这次我们将使用锚来定义两组服务。这将创建两个作业，test:postgres 并且 test:mysql，将共享 script 中定义的指令 .job_template，并 services 指令定义 .postgres_services 和 .mysql_services 分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.job_template: &amp;job_definition</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line"></span><br><span class="line">.postgres_services:</span><br><span class="line">  services: &amp;postgres_definition</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">.mysql_services:</span><br><span class="line">  services: &amp;mysql_definition</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:postgres:</span><br><span class="line">  &lt;&lt;: *job_definition</span><br><span class="line">  services: *postgres_definition</span><br><span class="line"></span><br><span class="line">test:mysql:</span><br><span class="line">  &lt;&lt;: *job_definition</span><br><span class="line">  services: *mysql_definition</span><br></pre></td></tr></table></figure>
+<p>扩展版本如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">.job_template:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line"></span><br><span class="line">.postgres_services:</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">.mysql_services:</span><br><span class="line">  services:</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:postgres:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:mysql:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line">  services:</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>pages</strong></p>
+<p>pages 是一项特殊工作，用于将静态内容上传到 GitLab，可用于为您的网站提供服务。它有一个特殊的语法，因此必须满足以下两个要求：</p>
+<ul>
+<li>任何静态内容都必须放在 public/ 目录下</li>
+<li>artifactspublic/ 必须定义目录的路径</li>
+</ul>
+<p>下面的示例只是将项目根目录中的所有文件移动到 public/ 目录中。该 .public 解决方法是这样 cp 不也复制 public/ 到自身无限循环：</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import Item from &apos;./item&apos;</span><br><span class="line">...</span><br><span class="line">_renderItem(&#123;item&#125;) &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;Item </span><br><span class="line">      style=&#123;[styles.bookText,this.state.night ? &#123;color: &apos;#4e534f&apos;&#125; : null,&#123;fontSize: this.state.fontsize,lineHeight: 2*this.sta.fontsize&#125;,]&#125;</span><br><span class="line">      allowFontScaling = &#123;false&#125;</span><br><span class="line">      onPress = &#123;() =&gt; &#123;this._changeFloatNav()&#125;&#125;&gt;&#123;item.content&#125;&lt;/Text&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>会发现更改this.state.fontsize后视图不更新，解决方法是走一下render方法，然后视图可以重新渲染。</p>
-<ul>
-<li>ListView的initialListSize属性设置的行数大的话会极大的拖累性能。</li>
-</ul>
-<h2 id="改名问题"><a href="#改名问题" class="headerlink" title="##改名问题"></a>##改名问题</h2><p>当初google如何给ReactNative app改名时得到的结果相当easy，但是当我更改相应配置后突如其来的错误让我一脸懵逼，仔细研究后才知道，改名后必须重新启动cmd或powershell，卸载本地deBug版本app，否则会报错。</p>
-<h2 id="Android返回键"><a href="#Android返回键" class="headerlink" title="##Android返回键"></a>##Android返回键</h2><p>Android对于返回键的检测是App开发中必不可少的，但是返回键事件解绑却有一个大坑，如果解绑时的条件不能让back绑定的函数返回false，则解绑失败，会覆盖上一页的back事件。如下示例，为一个模态窗的back事件，当模态窗打开时，按返回键关闭模态窗并阻断返回上一页。如果在模态窗开启的情况下使用函数方法返回上一页（例：this.props.navigation.goBack()）就会导致解绑失败。</p>
-<p>正确方法是在返回前将this.state.visible状态改为false，此时解绑正确。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount() &#123;</span><br><span class="line">    if (Platform.OS === &apos;android&apos;) &#123;</span><br><span class="line">      BackHandler.addEventListener(&apos;hardwareBackPress&apos;, this._onBackAndroid.bind(this))</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">componentWillUnmount() &#123;</span><br><span class="line">  if (Platform.OS === &apos;android&apos;) &#123;</span><br><span class="line">    BackHandler.removeEventListener(&apos;hardwareBackPress&apos;, this._onBackAndroid);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> _onBackAndroid() &#123;</span><br><span class="line">   if(this.state.visible)&#123;</span><br><span class="line">     this._hide()</span><br><span class="line">     return true</span><br><span class="line">   &#125;</span><br><span class="line">   return false</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="跨导航通信"><a href="#跨导航通信" class="headerlink" title="跨导航通信"></a>跨导航通信</h2><p>现在相信大家导航组件一般都会使用facebook强力推荐的react-navigation，虽然官方号称性能可以媲美原生，但是坑也是异常的多啊。。。（IOS貌似没有问题）</p>
-<p>首先是和ViewPagerAndroid组件冲突，滑动异常，不能正确交互。导致轮播图都要用ScrollView去做。。。还有就是导航组件间不能通信。</p>
-<p>app中登录模块是必不可少的，但是导航栏之间不能通信，就决定了不能在其它导航登录后更改个人中心页的登录状态。</p>
-<p>这个问题貌似无解，只能依靠状态管理框架去做。博主使用的是Mobx，网上如何把Mobx和ReactNative结合的教程很多，可以自行google。这里贴出如何跨导航通信的示例。</p>
-<p>首先是注册一个全局的变量，存放登录状态。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// MobxLocal.js</span><br><span class="line"></span><br><span class="line">&apos;use strict&apos;</span><br><span class="line">import &#123;observable, action&#125; from &apos;mobx&apos;</span><br><span class="line"></span><br><span class="line">// 声明类，用户信息</span><br><span class="line">class UserInfo &#123;</span><br><span class="line">  @observable</span><br><span class="line">  logoSta = false </span><br><span class="line">  </span><br><span class="line">  @observable</span><br><span class="line">  money = 0</span><br><span class="line"></span><br><span class="line">  @observable</span><br><span class="line">  sex = &apos;女&apos;</span><br><span class="line"></span><br><span class="line">  @observable</span><br><span class="line">  introduction = &apos;这个人很懒，还没有写简介。&apos;</span><br><span class="line">  </span><br><span class="line">  @observable</span><br><span class="line">  info = null</span><br><span class="line">  </span><br><span class="line">  // 改变数据方法，</span><br><span class="line">  @action _upData(data) &#123;</span><br><span class="line">	  for(let item in data) &#123;</span><br><span class="line">	    if(this[item] === undefined)&#123;throw(new Error(item+&apos;  is undefined!&apos;))&#125;</span><br><span class="line">	    this[item] = data[item]</span><br><span class="line">	  &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">global.userInfo = new UserInfo() // 绑定为全局变量</span><br></pre></td></tr></table></figure>
-<p>然后在入口文件执行JavaScript代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// index.android.js</span><br><span class="line"></span><br><span class="line">import &apos;./app/common/MobxLocal&apos;</span><br></pre></td></tr></table></figure>
-<p>将userinfo绑定到用户中心，然后在其它导航页登录后可以用相应的方法改变数据，用户中心的视图也会实时更改。</p>
-<p>要注意的是登录结果显示模块必须要注册为mobx组件。如下示例：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// userInfo.js  </span><br><span class="line"></span><br><span class="line">import &#123;observer&#125; from &apos;mobx-react/native&apos;</span><br><span class="line"></span><br><span class="line">@observer</span><br><span class="line">class User extends Component &#123;</span><br><span class="line">  constructor(props)&#123;</span><br><span class="line">    super(props)</span><br><span class="line">  &#125;</span><br><span class="line">  render(</span><br><span class="line">    return(...)</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 更改数据方法调用</span><br><span class="line">...</span><br><span class="line">userInfo._upData(&#123;logoSta: true, sex: &apos;男&apos;&#125;)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pages:</span><br><span class="line">  stage: deploy</span><br><span class="line">  script:</span><br><span class="line">    - mkdir .public</span><br><span class="line">    - cp -r * .public</span><br><span class="line">    - mv .public public</span><br><span class="line">  artifacts:</span><br><span class="line">    paths:</span><br><span class="line">      - public</span><br><span class="line">  only:</span><br><span class="line">    - master</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/07/17/router4_redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/17/router4_redux/" itemprop="url">Router@4.0 + Redux 配置使用</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-17T18:04:32+08:00">
+                2018-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/07/17/router4_redux/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/07/17/router4_redux/" class="cy_cmt_count" data-xid="2018/07/17/router4_redux/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>一直非常喜欢 vue-cli 搭建的项目环境，自己实现也比较麻烦，于是最近学习 React 时想着用 vue-cli 改造一个 React 的项目环境。<br>基础的版本在这里 =&gt; <a href="https://github.com/lwpersonal/module_React" target="_blank" rel="noopener">Module_React</a><br>然后又想着给项目加一些常用的插件，例如 router 和 redux 管理等。<br>本篇博客的 Demo 模板在 <a href="https://github.com/lwpersonal/module_React/tree/relase@redux" target="_blank" rel="noopener">relase@redux</a> 分支下</p>
 <hr>
-<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>–<br>ReactNative的坑有许多，大部分网上都可以找到，这些问题是我在做项目时遇到的，网上不太容易找到的一些问题，此文长期更新，有新的问题我会加到文章中。<br>文章原址：<a href="http://blog.csdn.net/qq_25243451/article/details/78089089" target="_blank" rel="noopener">http://blog.csdn.net/qq_25243451/article/details/78089089</a></p>
+<h1 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h1><p>多出了一个 react-router-dom 的包，他比 react-router 多了一些新的插件，可以不需要引用 react-router。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装插件</span><br><span class="line">cnpm i -S react-router react-router-dom</span><br></pre></td></tr></table></figure>
+<p>4.0 版本需要注意的是，Link 必须要包在Router 标签内，否则会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// router.js</span><br><span class="line">import React from &apos;react&apos;</span><br><span class="line">import &#123; BrowserRouter as Router, Link, Route &#125; from &apos;react-router-dom&apos;</span><br><span class="line"></span><br><span class="line">import Home from &apos;../containers/home&apos;</span><br><span class="line">import View from &apos;../containers/view&apos;</span><br><span class="line"></span><br><span class="line">// router 下如果有多个元素必须用一个盒子包起来，exact 字段表示完全匹配，即 /view 不会渲染 / ，如果没有的话 /view 会渲染 Home 组件 + View 组件</span><br><span class="line">export default () =&gt; &#123;</span><br><span class="line">  return (&lt;Router&gt;</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;Route path=&quot;/&quot; exact component=&#123;Home&#125;/&gt;</span><br><span class="line">      &lt;Route path=&quot;/view&quot; component=&#123;View&#125;/&gt;</span><br><span class="line"></span><br><span class="line">      &lt;p&gt;&lt;Link to=&quot;/&quot;&gt;home&lt;/Link&gt;&lt;/p&gt;</span><br><span class="line">      &lt;p&gt;&lt;Link to=&quot;/view&quot;&gt;view&lt;/Link&gt;&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  &lt;/Router&gt;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// main.js</span><br><span class="line">...</span><br><span class="line">import CreateRouter from &apos;./router&apos;</span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">	    &#123;/* 渲染路由 */&#125;</span><br><span class="line">        &#123;CreateRouter()&#125;</span><br><span class="line">        &lt;div className=&quot;App-header&quot;&gt;</span><br><span class="line">          &lt;h2&gt;hello world !&lt;/h2&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>如果需要代码跳转地址，可以这样。更多的 api 可以自行搜索。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">goUrl() &#123;</span><br><span class="line">    const &#123; history &#125; = this.props</span><br><span class="line">    history.push(&apos;/&apos;)</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h1 id="redux"><a href="#redux" class="headerlink" title="redux"></a>redux</h1><p>redux 的概念比较繁琐，去网上看各种教程后感觉似懂非懂，果然还是要去认真了解一下相关概念自己动手。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装</span><br><span class="line">cnpm i -S redux-thunk redux react-redux</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>Store</strong><br>Store 用来保存数据，一个应用只能有一个 Store。<br>Redux 提供 <strong>createStore</strong> 来生成一个 Store。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getState() // 获取 state</span><br><span class="line">dispatch(action) // 更新 state，View 发出 Action 的唯一方式</span><br><span class="line">subscribe(listener) // 注册监听器</span><br><span class="line">subscribe(listener) // 返回的函数注销监听器</span><br><span class="line"></span><br><span class="line">// 使用</span><br><span class="line">import &#123; createStore &#125; from &apos;redux&apos;</span><br><span class="line">let store = createStore()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>State</strong><br>State 是包含当前时点的所有数据的集合。<br>State 可以通过 store.getState() 获得。每一个时点的 State 都对应一个视图(View)</p>
+</li>
+<li><p><strong>Action</strong><br>State 的更改会触发 View 的变化，同样 View 的更改需要对应到 State，Action 的作用就是当 View 更改时去通知 State 更改。<br>Action 是一个简单的 JS 对象，必须要包含 <strong>type</strong> 属性，用来标识 Action 的名称，其他属性自由设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123; </span><br><span class="line">	  type: &apos;ADD_LIST&apos;,</span><br><span class="line">	  content: &apos;LIST-one&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>改变 State 的唯一方法就是使用 Action。</p>
+</li>
+<li><p><strong>Reducer</strong><br>Store 接收到 Action 后，会计算生成一个新的 State，Reducer 指定了状态的变化如何响应 Action 并反馈给 Store。</p>
+<p>Reducer 是一个纯函数，即相同的输入输出结果相同。返回一个新的 State。</p>
+<p>store.dispatch方法会触发 Reducer 的自动执行，把 reducer 传入 creatStore 即可<br>import { createStore } from ‘redux’;<br>const store = createStore(reducer);</p>
+<p>Redux 基本上包含这几个概念。</p>
+<p>先实现一个简单的 demo<br>结构如下<br><img src="https://img-blog.csdn.net/20180717171425436?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 先改造一下 main.js</span><br><span class="line">// 这里创建全局的一个 store</span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;</span><br><span class="line">import &#123; Provider &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">import getStore from &apos;./store&apos;</span><br><span class="line">import CreateRouter from &apos;./router&apos;</span><br><span class="line"></span><br><span class="line">class App extends Component &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">        &#123;CreateRouter()&#125;</span><br><span class="line">        &lt;div className=&quot;App-header&quot;&gt;</span><br><span class="line">          &lt;h2&gt;hello world !&lt;/h2&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = getStore()</span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;App /&gt;</span><br><span class="line">  &lt;/Provider&gt;,</span><br><span class="line">  document.body.appendChild(document.createElement(&apos;div&apos;))</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// store/index.js</span><br><span class="line">// 创建 store 的函数</span><br><span class="line"></span><br><span class="line">import &#123; createStore, compose, applyMiddleware &#125; from &apos;redux&apos;</span><br><span class="line">import thunkMiddleware from &apos;redux-thunk&apos;</span><br><span class="line"></span><br><span class="line">import Reducer from &apos;../reducer&apos;</span><br><span class="line"></span><br><span class="line">const createStoreWithMiddleware = compose(</span><br><span class="line">  applyMiddleware(thunkMiddleware)</span><br><span class="line">)(createStore)</span><br><span class="line"></span><br><span class="line">export default () =&gt; createStoreWithMiddleware(Reducer)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// reducer/index.js</span><br><span class="line">// 绑定多个 reducer</span><br><span class="line"></span><br><span class="line">import &#123; combineReducers &#125; from &apos;redux&apos;</span><br><span class="line"></span><br><span class="line">import home from &apos;./home&apos;</span><br><span class="line"></span><br><span class="line">const rootReducer = combineReducers(&#123;</span><br><span class="line">  home</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">export default rootReducer</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// reducer/home/index.js</span><br><span class="line">// 这里是单个的 reducer，在reducer/index.js 中绑定</span><br><span class="line"></span><br><span class="line">export default (state = &#123;&#125;, action) =&gt; &#123;</span><br><span class="line">  switch (action.type) &#123;</span><br><span class="line">    case &apos;ADD&apos;:</span><br><span class="line">      return &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        log: &apos;yes&apos;,</span><br><span class="line">        list: action.list || 0</span><br><span class="line">      &#125;</span><br><span class="line">    default:</span><br><span class="line">      return &#123; list: 0 &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后在组件中使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">// View</span><br><span class="line"></span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import &#123; PropTypes &#125; from &apos;prop-types&apos;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">class View extends Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      msg: &apos;view&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  goUrl() &#123;</span><br><span class="line">    const &#123; history &#125; = this.props</span><br><span class="line">    history.push(&apos;/&apos;)</span><br><span class="line">  &#125;</span><br><span class="line">  addNum() &#123;</span><br><span class="line">    const &#123; dispatch, home &#125; = this.props</span><br><span class="line">    dispatch(&#123;</span><br><span class="line">      type: &apos;ADD&apos;,</span><br><span class="line">      list: home.list + 1</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  btnSty() &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      width: &apos;100px&apos;,</span><br><span class="line">      height: &apos;40px&apos;,</span><br><span class="line">      border: &apos;1px solid rgba(0,0,0,0.1)&apos;,</span><br><span class="line">      background: &apos;rgba(0,0,0,0.1)&apos;,</span><br><span class="line">      borderRadius: &apos;3px&apos;,</span><br><span class="line">      cursor: &apos;pointer&apos;,</span><br><span class="line">      textAlign: &apos;center&apos;,</span><br><span class="line">      lineHeight: &apos;40px&apos;,</span><br><span class="line">      userSelect: &apos;none&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p className=&quot;view&quot;&gt;list:&#123;this.props.home.list&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&#123;this.props.examinationId&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p style=&#123;&#123;...this.btnSty()&#125;&#125; onClick=&#123;() =&gt; &#123; this.goUrl() &#125;&#125;&gt;to home&lt;/p&gt;</span><br><span class="line">        &lt;p style=&#123;&#123;...this.btnSty()&#125;&#125; onClick=&#123; this.addNum.bind(this) &#125;&gt;Add Num&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">export default connect(state =&gt; (&#123;</span><br><span class="line">  home: state.home,</span><br><span class="line">  examinationId: 1</span><br><span class="line">&#125;))(View)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// Home</span><br><span class="line"></span><br><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import &#123; PropTypes &#125; from &apos;prop-types&apos;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;</span><br><span class="line"></span><br><span class="line">class Home extends Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      msg: &apos;home&apos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render () &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;</span><br><span class="line">        &lt;p className=&quot;home&quot;&gt;&#123;this.state.msg&#125;&lt;/p&gt;</span><br><span class="line">        &lt;p&gt;&#123;this.props.home.list&#125;&lt;/p&gt;</span><br><span class="line">      &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(state =&gt; (&#123;</span><br><span class="line">  home: state.home</span><br><span class="line">&#125;))(Home)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180717175747185?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>然后在 /view 路由下会看到一个 low 到爆的页面，点击 Add Num 可以看到已经触发了视图的更新。<br>切换到 / 路由下 list 的状态保持不变，好了一个简单的 redux Demo 已经实现了。</p>
 
           
         
@@ -502,7 +852,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/09/28/test/">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/06/10/web_interview_teacher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="安冉">
@@ -521,7 +871,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/28/test/" itemprop="url">test</a></h1>
+                <a class="post-title-link" href="/2018/06/10/web_interview_teacher/" itemprop="url">前端面试（面试官篇）</a></h1>
         
 
         <div class="post-meta">
@@ -533,8 +883,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-28T14:40:51+08:00">
-                2018-09-28
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T14:36:46+08:00">
+                2018-06-10
               </time>
             
 
@@ -575,8 +925,8 @@
                 <i class="fa fa-comment-o"></i>
               </span>
               
-                <a href="/2018/09/28/test/#SOHUCS" itemprop="discussionUrl">
-                  <span id="url::https://lwpersonal.cn/2018/09/28/test/" class="cy_cmt_count" data-xid="2018/09/28/test/" itemprop="commentsCount" ></span>
+                <a href="/2018/06/10/web_interview_teacher/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/06/10/web_interview_teacher/" class="cy_cmt_count" data-xid="2018/06/10/web_interview_teacher/" itemprop="commentsCount" ></span>
                 </a>
               
             
@@ -598,7 +948,212 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  73
+                  2.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近一直在接公司的面试，果然还是需要站在不同的位置才能看到更多的问题，总结一下面试者常见的一些错误还有一些建议。</p>
+<ul>
+<li><p>紧张<br>这个是面试最常见的问题，不过说实话个人觉得影响不是特别大，属于加分项，只要你能正确把问题的关键点答出来就可以，不会因为紧张而特意淘汰掉你。<br>一般遇到紧张的面试者我会帮助他引导思路，后续如果能把基本的逻辑说清楚，关键的点说到一般都没有问题。但是如果在考官的引导下都无法说出问题的关键点，个人的体系都已经紧张到奔溃那就抱歉了。<br>还有一些是打着紧张的旗号掩盖自己的无知，但是不会和紧张是完全两种表现。尤其是技术这一块，如果你抓不到关键点那就直接挂掉。</p>
+</li>
+<li><p>“美化“简历<br>目前大家对培训机构出来的学生争议比较大的地方可能就是这里了。我身边很多同学朋友都去过培训机构，写几个培训的项目，培训老师就会和你说，你们这些培训过的学生至少相当于有两年工作经验。导致大家简历上写三年经验都觉得自己写少了。<br>科班出身的本专业学生，培训后确实有技术非常好的，公司培训1、2个月就可以上手干活。但是90%的人都没有达到相应的层次，连干活都有问题。<br>说实话，我实在想不出有什么黑科技，可以让四个月前还是对编程一无所知的快递员小哥，变成一个技术大牛。<br>这里只是想说明，程序员真的是要靠积累的。想要在任何一个行业站稳脚步都不是一朝一夕可以做到的。<br>但是现在市场如此，大家都这么写，你不写的话可能连机会都没有。<br>我推荐不管你的简历如何写，见到面试官如果被问到了，一定要真诚一点。因为说实话随便问几个问题就可看出你到底是什么水平，你能骗到的只有你自己。负隅顽抗绝对是减分行为。</p>
+</li>
+<li><p>抓到不问题的关键<br>很多面试者容易犯的一个错误就是，搞不清楚面试官要问你什么问题，遇到自己熟悉的范围无限的去扩展，遇到自己不懂的避而不谈。其实这种想法是很好的，但是也不是什么地方都要这么去做。<br>例如我让对方简单说一下 H5、C3 有哪些概念，如果没有追问的话，真的就是想要问你对 H5、C3 有没有一个系统的认知，你不需要挑几个你特别熟悉的属性长篇大论，甚至还要扩展一下。<br>但是如果问到 Vue 和 React 的原理、reduce 中 store 的实现，这个时候如果你只是一带而过那是很减分的。就算不会也要去猜测一下它的实现方法，说一下对这一块知识的理解。尽量把自己对他的理解都表达出来。<br>要清楚什么地方扩展是加分的，什么地方你表达自己的想法是对方想听的。</p>
+</li>
+<li><p>面试前要做准备<br>面试一定要有准备！面试一定要有准备！面试一定要有准备！重要的事情说三遍。<br>一般面试者遇到的第一个问题大部分都是，简单介绍一下你自己。很多人真的就简单的介绍了一下自己。。。我叫什么。然后就没有了。。。<br>what？你 tm 在逗我！<br>还有一些时间倒是把握得不错，但是你平时爱看什么电影就不用和我说吧，也不需要认真的说你自己多么爱运动。<br>你脑子瓦特了！这又不是在相亲。<br>比较好的自我介绍应该控制在10～20分钟左右，当然如果你自己下去准备的话还是要再多做一些准备，至少一个人也要独自表演一个小时吧。虽然一般面试也就是一个小时左右，但是万一面试官也不知道说什么，尬在那里的结果你也应该清楚。所以，一定要能把对方想要知道的东西表达出来，如果面试官不说话，那就你来说，介绍一下你做过的项目，你是如何学习前端的等等等等。如果你真的经验丰富，一个小时完全不够聊的好吧。<br>当然，简单的一个自我介绍，就算你做的再好也不能决定结果。但是整个面试的各个点你都有充足的准备，全部都表现的自信满满，那个时候你还说他不会影响结果吗？<br>还有一个问题是，很多面试者被问到不会的问题就尬在那里，完全不知所措，这个是非常减分的。<br>你要有自己思考问题的一个方式，如果真的遇到一个你解决不了的问题，你会怎么办？是傻在哪里，还是尝试去思考。<br>面对自己不会的问题，千万不要不知所措，把自己的想法说出来，就算不会错着也要说。<br>技术不会可以去学，但是如果你从来不试着去自己思考，那是很难改变的。你要把自己思考问题的方式展现给面试官。</p>
+</li>
+<li><p>面试结束你该问什么问题<br>一般面试结束，面试官都会问对方，你有什么想要问公司的吗？<br>这个时候一般问一下自己在公司以后扮演的角色、公司的福利等等，基本上没什么问题。<br>前不久遇到一个面试者，结尾自作聪明的要问一个问题，Vue 是怎么实现的，说实话我觉得是很减分的行为。如果你对这一块的知识很了解想考一下面试官，或者你对这一块的知识有困惑想要了解一下，问一下面试官我觉得没什么问题。但是如果你连 Vue 用都用不流畅，我真的不明白问这个问题有什么意义，无论我回答什么对你自己都没有任何帮助，只是纯粹的在浪费时间。而且性格方面绝对已经被减分。</p>
+</li>
+<li><p>伪代码<br>这个也是很常见的一种技巧，如果你被要求现场敲代码或者被要求写一段代码，记不清楚具体的方法该怎么办？<br>这个时候就把你的逻辑表达清楚就可以，毕竟 api 那么多，总有几个是记不住的。<br>所以，你可以这样写代码。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (条件为真) &#123;</span><br><span class="line">	var el = doc.getElById(&apos;id&apos;)</span><br><span class="line">	el.添加class(&apos;abc&apos;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>但是，如果你把上面的代码给面试官看，基本上已经被淘汰了。。。<br>这里有一个很重要的事情要搞清楚，什么可以写伪代码，什么不可以写。<br>计算机里面有一个人们经常提起的 28 概念，是说 20% 的知识就可以解决 80% 的问题。但是，如果这 20% 的代码你都需要去用伪代码表达，那基本上是没有人敢去用你的，所以该记的还是要去记一下。<br>另一个常见的面试场景是给你几个算法题，这个时候就可以用伪代码去表达，甚至可以直接说一下你的逻辑思路都可以。</p>
+<ul>
+<li>态度<br>面试中你表达给面试官的态度也是非常重要的，你要努力表达出你积极向上的一面。<br>我学的是 Vue ，公司使用 React ，但是我可以去学。<br>这个问题我现在不会，但是我尝试着思考过，我可以去了解。<br>web 技术杂、新技术多，但是我有了解的欲望。<br>这些都是你积极向上的一面。<br>如果你把这些细节做好，自身的技术也过关的话，一定会脱颖而出。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/06/10/axios_post_node/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/10/axios_post_node/" itemprop="url">Axios Post 请求后端接收不到数据</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-10T00:19:44+08:00">
+                2018-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/06/10/axios_post_node/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/06/10/axios_post_node/" class="cy_cmt_count" data-xid="2018/06/10/axios_post_node/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  319
                 </span>
               
 
@@ -637,15 +1192,1439 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+            <p>最近做一个小项目，前端使用 axios 请求数据，后端使用 node 写接口。调试时发现后端取不到请求的参数，解决时浪费了很多时间，这里贴出来解决方法。</p>
+<p>项目地址在这里：<a href="https://github.com/Wen-JW/html-edit-npm/tree/release@0.0.1" target="_blank" rel="noopener">html-edit-npm</a><br>可以查看相关实现</p>
+<p>前端请求，有两个地方需要注意。</p>
+<p>首先是需要使用 <strong>URLSearchParams</strong> 处理 Post 参数。<br>第二个地方是，<strong>Content-Type</strong> 的值必须为 <strong>application/x-www-form-urlencoded</strong>，否则会出现问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">add () &#123;</span><br><span class="line">    let params = new URLSearchParams()</span><br><span class="line"></span><br><span class="line">    params.append(&apos;html&apos;, JSON.stringify(this.html))</span><br><span class="line">	</span><br><span class="line">	// 当 http 请求头参数不对时需设置 Content-Type</span><br><span class="line">    axios.post(&apos;/api/add&apos;, params, &#123;headers: &#123; &apos;Content-Type&apos;: &apos;application/x-www-form-urlencoded&apos; &#125;&#125;).then((res) =&gt; res).catch(err =&gt; console.log(err))</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>这时候发起请求，发现请求是没有问题的</p>
+<p><img src="https://img-blog.csdn.net/20180610000620157?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>参数也是正确的</p>
+<p><img src="https://img-blog.csdn.net/20180610000714615?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>但是后端却还是没有获取到参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apiRoutes.post(&apos;/add&apos;, (req, res) =&gt; &#123;</span><br><span class="line">  // 获取 post 请求的参数</span><br><span class="line">  const query = req.body</span><br><span class="line">  console.log(&apos;body&apos;, req.body)</span><br><span class="line"></span><br><span class="line">  return res.json(&#123;</span><br><span class="line">    code: 0,</span><br><span class="line">    message: &quot;success&quot;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180610001134680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>这里后端也需要做一下处理才能接收到参数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const bodyParser = require(&apos;body-parser&apos;)</span><br><span class="line"></span><br><span class="line">app.use(bodyParser.urlencoded(&#123;</span><br><span class="line">  extended: false</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180610001531994?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p> 然后请求就可以正确接收到参数了</p>
+<p><img src="https://img-blog.csdn.net/2018061000164970?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/05/16/webpack4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/16/webpack4/" itemprop="url">Webpack4 升级全教程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-16T00:19:08+08:00">
+                2018-05-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/05/16/webpack4/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/05/16/webpack4/" class="cy_cmt_count" data-xid="2018/05/16/webpack4/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>webpack4 发版也有一段时间了，发现 vue-cli 还是基于 webpack3 ，于是想着升级一个项目模板。</p>
+<p>这里是升级后的项目，可以直接使用。=&gt; <a href="https://github.com/lwpersonal/module_Vue2/tree/relase@4" target="_blank" rel="noopener">项目模板在这里，relase@4 分支下</a></p>
+<p>（最近修改了一个 React 版本的，基于 vue-cli ，可以看看 <a href="https://github.com/lwpersonal/module_React" target="_blank" rel="noopener">Module_React_Webpack4</a>，过程比较痛苦，就不贴了）</p>
+<hr>
+<p>整体而言坑还是很多的，但是基本都是一些版本错误，升级一下包的版本大部分都可以解决。</p>
+<p>先是常规的 vue-cli 安装。</p>
+<p><img src="https://img-blog.csdn.net/20180515221252451?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>然后 webpack 升级到 4.8.1，安装 webpack-cli 等插件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;webpack&quot;: &quot;^4.8.1&quot;,</span><br><span class="line">&quot;webpack-cli&quot;: &quot;^2.1.3&quot;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>npm run dev 报错</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/20180515224442621?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>这个是因为 webpack 和 webpack-dev-server 版本不兼容导致的，升级一下就好了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;webpack-dev-server&quot;: &quot;^3.1.4&quot;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再次启动，报错<br><img src="https://img-blog.csdn.net/20180515224633357?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>这里是因为 html-webpack-plugin 版本不兼容导致的，这里去网上搜索的话发现大部份博客都是说执行 <strong>yarn add webpack-contrib/html-webpack-plugin -D</strong><br>但是我使用的时候作者已经更新版本了，所以直接升级就可以，不需要安装 webpack 官方的替代版本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;html-webpack-plugin&quot;: &quot;^3.2.0&quot;,</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后再次启动<br><img src="https://img-blog.csdn.net/20180515230133763?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>升级一下 eslint 和 eslint-loader</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;eslint&quot;: &quot;^4.19.1&quot;,</span><br><span class="line">&quot;eslint-loader&quot;: &quot;^2.0.0&quot;,</span><br><span class="line">// 这里如果直接 npm i -D eslint-loader 的话，升级到的版本是 1.9.0 还是会报错，需要指定版本升级到 2.0 以上</span><br></pre></td></tr></table></figure>
+<ul>
+<li>继续<br><img src="https://img-blog.csdn.net/2018051523050555?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>升级 vue-loader<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;vue-loader&quot;: &quot;^15.0.10&quot;,</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这里再次运行报错会很多<br><img src="https://img-blog.csdn.net/20180515231722240?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>这里是因为最新版的 vue-loader 需要加一个新的配置  VueLoaderPlugin </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// webpack.dev.conf.js</span><br><span class="line">// 引入</span><br><span class="line">const &#123; VueLoaderPlugin &#125; = require(&apos;vue-loader&apos;)</span><br><span class="line"></span><br><span class="line">// 在下面的插件中加入</span><br><span class="line">plugins: [</span><br><span class="line">	...</span><br><span class="line">    new VueLoaderPlugin(),</span><br><span class="line">    ...</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// webpack.prod.conf.js 文件同样</span><br><span class="line">// 引入</span><br><span class="line">const &#123; VueLoaderPlugin &#125; = require(&apos;vue-loader&apos;)</span><br><span class="line"></span><br><span class="line">// 在下面的插件中加入</span><br><span class="line">plugins: [</span><br><span class="line">	...</span><br><span class="line">    new VueLoaderPlugin(),</span><br><span class="line">    ...</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再次运行<br><img src="https://img-blog.csdn.net/20180515232502207?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>webpack4 需要指定打包的模式 (mode)，指定一下就好，可以在 package.json 的命令中指定，也可以写入配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// webpack.dev.conf.js</span><br><span class="line">const webpackConfig = merge(baseWebpackConfig, &#123;</span><br><span class="line">	mode: &apos;development&apos;,</span><br><span class="line">	module: &#123;...&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// webpack.prod.conf.js </span><br><span class="line">const webpackConfig = merge(baseWebpackConfig, &#123;</span><br><span class="line">	mode: &apos;production&apos;,</span><br><span class="line">	module: &#123;...&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后再次运行 npm run dev<br><img src="https://img-blog.csdn.net/201805152334422?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>完全没有错误提示，至此， dev 环境的升级就完成了。</p>
+<ul>
+<li>然而，运行 npm run build 后。。。</li>
+</ul>
+<p><img src="https://img-blog.csdn.net/2018051523380149?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>熟悉的界面又出现了，</p>
+<p>这部分错误是因为  webpack.optimize.CommonsChunkPlugin 已经被弃用，需要使用新的配置 config.optimization.splitChunks</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">// webpack.prod.conf.js</span><br><span class="line">// 在 plugins 同级下添加配置</span><br><span class="line">...</span><br><span class="line">optimization: &#123;</span><br><span class="line">   splitChunks: &#123;</span><br><span class="line">     cacheGroups: &#123;</span><br><span class="line">       vendor: &#123;</span><br><span class="line">         test: /[\\/]node_modules[\\/]/,</span><br><span class="line">         name: &apos;vendor&apos;,</span><br><span class="line">         chunks: &apos;all&apos;</span><br><span class="line">       &#125;,</span><br><span class="line">       manifest: &#123;</span><br><span class="line">         name: &apos;manifest&apos;,</span><br><span class="line">         minChunks: Infinity</span><br><span class="line">       &#125;,</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;,</span><br><span class="line"> &#125;,</span><br><span class="line"> plugins: [...]</span><br><span class="line"> </span><br><span class="line">// 去掉 plugins 中的这部分代码</span><br><span class="line">...</span><br><span class="line">new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">   name: &apos;vendor&apos;,</span><br><span class="line">   minChunks (module) &#123;</span><br><span class="line">     // any required modules inside node_modules are extracted to vendor</span><br><span class="line">     return (</span><br><span class="line">       module.resource &amp;&amp;</span><br><span class="line">       /\.js$/.test(module.resource) &amp;&amp;</span><br><span class="line">       module.resource.indexOf(</span><br><span class="line">         path.join(__dirname, &apos;../node_modules&apos;)</span><br><span class="line">       ) === 0</span><br><span class="line">     )</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;),</span><br><span class="line"> // extract webpack runtime and module manifest to its own file in order to</span><br><span class="line"> // prevent vendor hash from being updated whenever app bundle is updated</span><br><span class="line"> new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">   name: &apos;manifest&apos;,</span><br><span class="line">   minChunks: Infinity</span><br><span class="line"> &#125;),</span><br><span class="line"> // This instance extracts shared chunks from code splitted chunks and bundles them</span><br><span class="line"> // in a separate chunk, similar to the vendor chunk</span><br><span class="line"> // see: https://webpack.js.org/plugins/commons-chunk-plugin/#extra-async-commons-chunk</span><br><span class="line"> new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">   name: &apos;app&apos;,</span><br><span class="line">   async: &apos;vendor-async&apos;,</span><br><span class="line">   children: true,</span><br><span class="line">   minChunks: 3</span><br><span class="line"> &#125;),</span><br><span class="line"> ...</span><br></pre></td></tr></table></figure>
+<ul>
+<li>再次打包<br><img src="https://img-blog.csdn.net/20180515235226395?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></li>
+</ul>
+<p>这里是因为官方已经不推荐使用 extract-text-webpack-plugin 提取 css 样式，可以使用 mini-css-extract-plugin 替代<br>如果不想改变的话可以升级  extract-text-webpack-plugin </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;extract-text-webpack-plugin&quot;: &quot;^4.0.0-beta.0&quot;,</span><br></pre></td></tr></table></figure>
+<p>推荐使用 mini-css-extract-plugin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">// 首先安装 &quot;mini-css-extract-plugin&quot;: &quot;^0.4.0&quot;,</span><br><span class="line">// 并且去掉 package.json 中的包 &quot;extract-text-webpack-plugin&quot;: &quot;^4.0.0-beta.0&quot;,</span><br><span class="line"></span><br><span class="line">// webpack.base.conf.js</span><br><span class="line"></span><br><span class="line">// 去掉 extract-text-webpack-plugin</span><br><span class="line">// const ExtractTextPlugin = require(&apos;extract-text-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">// 引入</span><br><span class="line">const MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;)</span><br><span class="line"></span><br><span class="line">// 下面的 generateLoaders 函数更改配置（*中间的为改动部分）</span><br><span class="line">function generateLoaders (loader, loaderOptions) &#123;</span><br><span class="line">   const loaders = options.usePostCSS ? [cssLoader, postcssLoader] : [cssLoader]</span><br><span class="line"></span><br><span class="line">   if (loader) &#123;</span><br><span class="line">     loaders.push(&#123;</span><br><span class="line">       loader: loader + &apos;-loader&apos;,</span><br><span class="line">       options: Object.assign(&#123;&#125;, loaderOptions, &#123;</span><br><span class="line">         sourceMap: options.sourceMap</span><br><span class="line">       &#125;)</span><br><span class="line">     &#125;)</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // Extract CSS when that option is specified</span><br><span class="line">   // (which is the case during production build)</span><br><span class="line">   if (options.extract) &#123;</span><br><span class="line">   </span><br><span class="line">   // ********************</span><br><span class="line">   // 改动在这里</span><br><span class="line">     return [MiniCssExtractPlugin.loader].concat(loaders)</span><br><span class="line">   // ********************</span><br><span class="line">   </span><br><span class="line">   &#125; else &#123;</span><br><span class="line">     return [&apos;vue-style-loader&apos;].concat(loaders)</span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">// webpack.prod.conf.js</span><br><span class="line"></span><br><span class="line">// 去掉 extract-text-webpack-plugin</span><br><span class="line">// const ExtractTextPlugin = require(&apos;extract-text-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line">// 引入</span><br><span class="line">const MiniCssExtractPlugin = require(&apos;mini-css-extract-plugin&apos;)</span><br><span class="line"></span><br><span class="line">// 去掉 plugins 里的配置</span><br><span class="line">new ExtractTextPlugin(&#123;</span><br><span class="line">   filename: utils.assetsPath(&apos;css/[name].[contenthash].css&apos;),</span><br><span class="line">   allChunks: true,</span><br><span class="line"> &#125;),</span><br><span class="line"></span><br><span class="line">// 然后加入新的插件配置</span><br><span class="line">new MiniCssExtractPlugin(&#123;</span><br><span class="line">   filename: utils.assetsPath(&apos;css/[name].[contenthash:12].css&apos;),</span><br><span class="line">   allChunks: true,</span><br><span class="line"> &#125;),</span><br></pre></td></tr></table></figure>
+<p>再次打包就可以运行了<br><img src="https://img-blog.csdn.net/2018051600112789?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>到此 webpack4 已经升级成功了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/04/22/svg_4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/22/svg_4/" itemprop="url">SVG 详解（四）其他常用标签</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-22T23:20:25+08:00">
+                2018-04-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/22/svg_4/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/04/22/svg_4/" class="cy_cmt_count" data-xid="2018/04/22/svg_4/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>##clipPath-裁剪##</p>
+<p>能限制哪些地方可见，哪些地方不可见。标记指定的区域之外的所有内容都不会被显示(图像不会被绘制出来)。剪切路径是用clipPath元素定义的，属性clip-path可用来引用剪切路径。默认情况下，一个形状，其被剪切掉的区域（不可见的区域）是不响应鼠标事件的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 超出矩形区域将不会被绘制</span><br><span class="line">&lt;svg width=&quot;120&quot; height=&quot;120&quot;</span><br><span class="line">  viewPort=&quot;0 0 120 120&quot; version=&quot;1.1&quot;</span><br><span class="line">  xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span><br><span class="line"></span><br><span class="line">  &lt;defs&gt;</span><br><span class="line">    &lt;clipPath id=&quot;myClip&quot;&gt;</span><br><span class="line">      &lt;circle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;20&quot;/&gt;</span><br><span class="line">      &lt;circle cx=&quot;100&quot; cy=&quot;70&quot; r=&quot;30&quot;/&gt;</span><br><span class="line">    &lt;/clipPath&gt;</span><br><span class="line">  &lt;/defs&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;rect x=&quot;10&quot; y=&quot;10&quot; width=&quot;100&quot; height=&quot;100&quot;</span><br><span class="line">    clip-path=&quot;url(#myClip)&quot; fill=&apos;red&apos; /&gt;</span><br><span class="line">    </span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422211934495?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>##g-分组##</p>
+<p>g 标记就是’group’的简写，是用来分组用的，它能把多个元素放在一组里，对 g 标记实施的样式和渲染会作用到这个分组内的所有元素上。组内的所有元素都会继承 g 标记上的所有属性。用定义的分组还可以使用 use 进行复制使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">  &lt;g fill=&quot;blue&quot; id=&quot;myClip&quot;&gt;</span><br><span class="line">    &lt;circle cx=&quot;30&quot; cy=&quot;30&quot; r=&quot;20&quot;/&gt;</span><br><span class="line">    &lt;circle cx=&quot;100&quot; cy=&quot;70&quot; r=&quot;30&quot;/&gt;</span><br><span class="line">  &lt;/g&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422213554787?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>##use-深度复用##</p>
+<p>use 标记的作用是能从 SVG 文档内部取出一个节点，克隆它，并把它输出到别处。跟’引用’很相似，但它是深度克隆。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&apos;0 0 60 60&apos;&gt;</span><br><span class="line">  &lt;style&gt;</span><br><span class="line">    .classA &#123; fill:red &#125;</span><br><span class="line">  &lt;/style&gt;</span><br><span class="line">  &lt;defs&gt;</span><br><span class="line">    &lt;g id=&quot;Port&quot;&gt;</span><br><span class="line">      &lt;circle style=&quot;fill:inherit&quot; r=&quot;5&quot;/&gt;</span><br><span class="line">    &lt;/g&gt;</span><br><span class="line">  &lt;/defs&gt;</span><br><span class="line"></span><br><span class="line">  &lt;use x=&quot;20&quot; y=&quot;10&quot; xlink:href=&quot;#Port&quot; /&gt;</span><br><span class="line">  &lt;use x=&quot;20&quot; y=&quot;30&quot; xlink:href=&quot;#Port&quot; class=&quot;classA&quot;/&gt;</span><br><span class="line">  &lt;use x=&quot;20&quot; y=&quot;50&quot; xlink:href=&quot;#Port&quot; style=&quot;fill:blue&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/201804222149490?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>##defs-模板##<br>defs 元素用于预定义一个元素使其能够在 SVG 图像中重复使用，和 g 结合使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;300&quot; height=&quot;300&quot; viewport=&quot;0 0 300 300&quot;&gt;</span><br><span class="line">  &lt;defs&gt;</span><br><span class="line">    &lt;g id=&quot;shape&quot;&gt;</span><br><span class="line">        &lt;rect x=&quot;25&quot; y=&quot;50&quot; width=&quot;50&quot; height=&quot;50&quot; /&gt;</span><br><span class="line">        &lt;circle cx=&quot;25&quot; cy=&quot;50&quot; r=&quot;50&quot; /&gt;</span><br><span class="line">        &lt;circle fill=&quot;orange&quot; cx=&quot;25&quot; cy=&quot;50&quot; r=&quot;5&quot; /&gt;</span><br><span class="line">    &lt;/g&gt;</span><br><span class="line">  &lt;/defs&gt;</span><br><span class="line"></span><br><span class="line">  &lt;use xlink:href=&quot;#shape&quot; x=&quot;50&quot; y=&quot;25&quot; /&gt;</span><br><span class="line">  &lt;use xlink:href=&quot;#shape&quot; x=&quot;200&quot; y=&quot;25&quot; /&gt;</span><br><span class="line">  &lt;use xlink:href=&quot;#shape&quot; x=&quot;50&quot; y=&quot;150&quot; /&gt; </span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422221947398?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>##symbol-模板##</p>
+<p>symbol 标记的作用是定义一个图像模板，它的作用相当于 g 和 defs 的结合，你可以使用 use 标记实例化它，然后在 SVG 文档中反复使用，这种用法非常的高效。symbol 本身不会输出任何图像，只有使用 use 实例化后才会显示。。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg viewBox=&quot;0 0 150 150&quot; height=&apos;300&apos;&gt;</span><br><span class="line">  &lt;symbol id=&quot;sym01&quot; viewBox=&quot;0 0 150 110&quot;&gt;</span><br><span class="line">    &lt;circle cx=&quot;50&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke-width=&quot;8&quot; stroke=&quot;red&quot; fill=&quot;red&quot;/&gt;</span><br><span class="line">    &lt;circle cx=&quot;90&quot; cy=&quot;60&quot; r=&quot;40&quot; stroke-width=&quot;8&quot; stroke=&quot;green&quot; fill=&quot;white&quot;/&gt;</span><br><span class="line">  &lt;/symbol&gt;</span><br><span class="line"></span><br><span class="line">  &lt;use xlink:href=&quot;#sym01&quot;</span><br><span class="line">    x=&quot;0&quot; y=&quot;0&quot; width=&quot;100&quot; height=&quot;50&quot;/&gt;</span><br><span class="line">  &lt;use xlink:href=&quot;#sym01&quot;</span><br><span class="line">    x=&quot;0&quot; y=&quot;50&quot; width=&quot;75&quot; height=&quot;38&quot;/&gt;</span><br><span class="line">  &lt;use xlink:href=&quot;#sym01&quot;</span><br><span class="line">    x=&quot;0&quot; y=&quot;100&quot; width=&quot;50&quot; height=&quot;25&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422220117886?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>##文本##</p>
+<p>text 元素用于定义文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;400&quot;&gt;</span><br><span class="line">  &lt;!-- y 设置为 0 是看不到的 --&gt;</span><br><span class="line">  &lt;text x=&quot;10&quot; y=&quot;1&quot; fill=&quot;red&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;text x=&quot;10&quot; y=&quot;25&quot; fill=&quot;blue&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;!-- 旋转文本 --&gt;</span><br><span class="line">  &lt;text x=&quot;0&quot; y=&quot;45&quot; fill=&quot;red&quot; </span><br><span class="line">transform=&quot;rotate(30 20,40)&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;!-- 文本组 --&gt;</span><br><span class="line">  &lt;text x=&quot;10&quot; y=&quot;105&quot; style=&quot;fill:red;&quot;&gt;这里有几行文字：</span><br><span class="line">    &lt;tspan x=&quot;10&quot; y=&quot;125&quot;&gt;这是第一行文字。&lt;/tspan&gt;</span><br><span class="line">    &lt;tspan x=&quot;10&quot; y=&quot;145&quot;&gt;第二行文字在这里。&lt;/tspan&gt;</span><br><span class="line">  &lt;/text&gt;</span><br><span class="line">  &lt;!-- 加超链接 --&gt;</span><br><span class="line">  &lt;a xlink:href=&quot;http://lwpersonal.cn/other/draw/Canvas/SVG.html&quot; </span><br><span class="line">target=&quot;_blank&quot;&gt;</span><br><span class="line">    &lt;text x=&quot;10&quot; y=&quot;170&quot; fill=&quot;orange&quot;&gt;超链接 !&lt;/text&gt;</span><br><span class="line">  &lt;/a&gt;</span><br><span class="line">  &lt;!-- 按路径渲染文本 --&gt;</span><br><span class="line">  &lt;defs&gt;</span><br><span class="line">    &lt;path id=&quot;path1&quot; d=&quot;M10,190 a1,1 0 0,0 100,0&quot; /&gt;</span><br><span class="line">  &lt;/defs&gt;</span><br><span class="line">  &lt;text x=&quot;10&quot; y=&quot;190&quot; style=&quot;fill:red;&quot;&gt;</span><br><span class="line">    &lt;textPath xlink:href=&quot;#path1&quot;&gt;I love SVG I love SVG&lt;/textPath&gt;</span><br><span class="line">  &lt;/text&gt;</span><br><span class="line">  &lt;!-- x 的值定义距离上一个文本的 x 的绝对距离，dx 定义相对距离 --&gt;</span><br><span class="line">  &lt;text x=&quot;10 30 50&quot; dx=&quot;-10 0 20&quot; y=&quot;280 300 280&quot; fill=&quot;red&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;!-- 定义每一个文本的距离 --&gt;</span><br><span class="line">  &lt;text x=&quot;10&quot; y=&quot;330&quot; letter-spacing=&quot;10&quot; fill=&quot;red&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;!-- 定义文本相对于 x 坐标的处理方法 --&gt;</span><br><span class="line">  &lt;text x=&quot;100&quot; y=&quot;360&quot; text-anchor=&quot;middle&quot; fill=&quot;red&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">  &lt;text x=&quot;100&quot; y=&quot;390&quot; text-anchor=&quot;end&quot; fill=&quot;red&quot;&gt;hello world !&lt;/text&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422231713966?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/04/19/svg_3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/19/svg_3/" itemprop="url">SVG 详解（三）基础语法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-19T23:23:44+08:00">
+                2018-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/19/svg_3/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/04/19/svg_3/" class="cy_cmt_count" data-xid="2018/04/19/svg_3/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  11
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本文介绍一些 SVG 的简单语法，如矩形、圆形、路径等。</p>
+<p><strong>rect-矩形</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 语法很简单，x y 左上角起点坐标，width height 矩形长宽，rx ry 圆角</span><br><span class="line">// 绘图的填充等属性可以放在 style 里，也可以和 style 平级抽离为一个属性去描述，如这样：fill=&apos;red&apos;</span><br><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;rect x=&quot;50&quot; y=&quot;0&quot; rx=&quot;10&quot; ry=&quot;20&quot; width=&quot;100&quot; height=&quot;80&quot;</span><br><span class="line">	style=&quot;fill:red;stroke-width:1;stroke:rgb(0,0,0)&quot; fill-opacity=&quot;0.5&quot; opacity=&quot;0.8&quot; stroke-opacity=&quot;0.4&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419221323762?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>circle-圆</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// cx cy 圆心，r 半径</span><br><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot;</span><br><span class="line">	stroke-width=&quot;2&quot; fill=&quot;red&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419221400363?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br><strong>ellipse-椭圆</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// cx cy 圆心，rx ry 两个轴的长度</span><br><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;ellipse cx=&quot;100&quot; cy=&quot;50&quot; rx=&quot;50&quot; ry=&quot;30&quot;</span><br><span class="line">	style=&quot;fill:yellow;stroke:purple;stroke-width:2&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/2018041922142468?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>line-线条</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// x1 y1 起点，x2 y2 终点</span><br><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;line x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;200&quot; y2=&quot;100&quot;</span><br><span class="line">	style=&quot;stroke:rgb(255,0,0);stroke-width:5&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419221448447?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>polygon-多边形</strong><br>简单的多边形的语法也较为简单，定义多个点，最后一个点会自动和起始点相连，组成一个多边形。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot;&gt;</span><br><span class="line">	&lt;polygon points=&quot;100,10 40,180 190,60 10,60 160,180&quot;</span><br><span class="line">	style=&quot;fill:orange;stroke:purple;stroke-width:5;fill-rule:evenodd;&quot; /&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180422210545482?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"><br>如果多加注意，你会发现上面的代码中有一个 fill-rule 属性。<br>在复杂的多边形中，区域会出现重叠现象，一个区域属于多边形内还是多边形外不是很明朗，所以有一个属性 fill-rule 用来定义区域是属于填充区域（内）还是非填充区域（外）<br>fill-rule 有三个值，描述不同的定义规则（默认 inherit）</p>
+<ul>
+<li><p>nonzero（非 0 规则）<br>从 0 开始计数，在一个多边形内，选择一个区域从中随意做一条射线，与多边形的 n 条边相交。在这 n 条边中，如果该条边的 x 轴，是从 x 轴的左边向右边移动（x 坐标递增）加 1，反之减 1，最终，如果为 0 则该区域在多边形外（不填充），否之为内。</p>
+<p>例如下图，蓝色箭头为区域内做的两条射线，分别来自两个区域。上边的蓝色线段，与两条边相交，方向都为 -1，所以最终结果为 -2 ，不等于 0 ，该区域为多边形的内置区域，下边的蓝色线段，与多边形三条边相交，根据方向相加等于 -1，所以也是该多边形的内置区域。<br><img src="https://img-blog.csdn.net/20180419220320537?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</li>
+<li><p>evenodd（奇偶规则）<br>奇偶规则与非 0 规则类似，在一个多边形内，选择一个区域从中随意做一条射线，与多边形有 n 个交点，如果交点的个数为奇数，则该区域为内置区域，如果交点个数为偶数，则该区域为外置区域，如下图。<br><img src="https://img-blog.csdn.net/20180419220917772?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+</li>
+</ul>
+<p><strong>polyline-曲线</strong></p>
+<p>曲线与多边形类似，但是终点不会与起点相连。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;Polyline points=&quot;0,0 40,40 40,80 80,80 80,40 100,100 120,70&quot; style=&quot;fill:orange;stroke:red;stroke-width:4&quot; /&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419222348422?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>path-路径</strong><br>上面的基本形状其实都属于路径的一个延伸，都是基于 path 实现的。<br>path 有很多的语法属性，可以自定义实现复杂的形状。<br>其中坐标点有多种写法，且绘制属性不区分大小写。</p>
+<p>逗号分割坐标点：x1 y1 , x2 y2<br>无逗号：x1 y1 x2 y2<br>逗号分隔 x y ：x1,y1 x2,y2</p>
+<ul>
+<li>M/m<br>语法：M x y | m x y | m x,y<br>描述：定义起始点，没什么效果</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M 10 10&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>L/l<br>语法：L x y<br>描述：画线段，移动到某一坐标，可以使用 m 重新定义起点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M 10 10 L 10 50 L 50 50 L 100 80 M 100 100 L 180 50&quot; stroke=&quot;#000&quot; fill=&quot;none&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419223736704?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>H/h<br>语法：H x<br>描述：画一条横线</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M 50 50 H 150&quot; stroke=&quot;#000&quot; fill=&quot;none&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419223940731?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>V/v<br>语法：V y<br>描述：画一条竖线</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M 100 10 v 120&quot; stroke=&quot;#000&quot; fill=&quot;none&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419224032680?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>Z/z<br>语法：Z<br>描述：标示结束，并且和开始的点连起来</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;m 10 10 h 10 v 10 l 50 0 v 50 z&quot; stroke=&quot;#000&quot; fill=&quot;orange&quot; stroke-width=&quot;3&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419224443566?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>从这里开始涉及到 path 曲线的绘制需要对贝塞尔曲线有一定了解</strong></p>
+<p>下面是一些贝塞尔曲线动画</p>
+<p>线性贝塞尔曲线<br><img src="https://img-blog.csdn.net/20180419224757493?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="线性贝塞尔曲线"></p>
+<p>二次贝塞尔曲线<br><img src="https://img-blog.csdn.net/20180419225026793?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>三次贝塞尔曲线<br><img src="https://img-blog.csdn.net/20180419225136434?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>四次贝塞尔曲线<br><img src="https://img-blog.csdn.net/20180419225126469?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>五次贝塞尔曲线<br><img src="https://img-blog.csdn.net/20180419225313822?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>这里有一个工具可以去体会一下贝塞尔曲线，<a href="http://cubic-bezier.com/#.25,.1,.04,1.01" target="_blank" rel="noopener">贝塞尔曲线模拟</a></p>
+<ul>
+<li>C/c<br>语法：C x1 y1, x2 y2, x y<br>描述：用来绘制一个三次贝塞尔曲线（传统贝塞尔曲线），正统的三次贝塞尔曲线，需要 4 个参考点，所以 C/c 需要定义三个参考点（M/m 起始点为第一个），两个控制点和一个终点。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M10 10 C 100 100, 150 100, 150 10&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419230035437?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>S/s<br>语法：S x2 y2, x y<br>描述：该标识符一般和 C/c 组合使用，实际上使用来表示一个四次贝塞尔曲线（反射贝塞尔），即在原有三次贝塞尔上再加一段贝塞尔曲线，所以 S/s 一般和 C/c 一起使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;M10 50 C 40 10, 60 10, 90 50 S 150 100, 180 50&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419230536417?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>Q/q<br>语法：Q x1 y1, x y<br>描述：该标识符是用来定义二次贝塞尔曲线，该曲线相当于上面传统贝塞尔简化版，它只需要定义三个点，即可绘制一个贝塞尔曲线</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;m 10 10 q 100 150, 180 10&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419230709753?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<ul>
+<li>T/t<br>语法：T x y<br>描述：该标识符和 S 差不多，也是一个贝塞尔曲线的延长，会根据 Q/q 的控制点和终点对称一个控制点，所以只需要定义一个终点即可。注意 C/SS，Q/T 这样搭配使用，且 T 的距离是相对于 Q 的终点绘制的</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;200&quot; height=&quot;100&quot; viewBox=&quot;0 0 200 100&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;m 10 10 q 50 100, 100 30 t 80 50&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419230829580?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p><strong>弧线</strong><br>在 path 中弧线是一个比较复杂的概念<br>语法：A rx ry x-axis-rotation large-arc-flag sweep-flag x y<br>描述：rx,ry: 代表的就是长轴短轴; x,y: 代表的是弧长的结束点。开始点就是上一个命令的终点; x-axis-rotation: x 轴的旋转角度, 顺时针为正。large-arc-flag[0,1]: 表示取大弧还是小弧。sweep-flag[0,1]: 取顺时针的弧，还是逆时针的弧长。参考点是以起始点开始的。<br>大部分的概念都很容易理解，需要注意其中的  large-arc-flag 和 sweep-flag<br>首先，两点之前，如果将上述的其他条件限定，可以做两个形状相同的椭圆（下图为手动绘制，看作相同。。）。</p>
+<p><img src="https://img-blog.csdn.net/20180419231402164?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>而，在两个交点之间，一共有四段弧线。 large-arc-flag 和 sweep-flag 就是用来定义选取四段弧线中的具体哪一段。</p>
+<p>这样就比较清晰了。如下示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//  large-arc-flag = 1 ；sweep-flag = 1 </span><br><span class="line">// 选取顺时针大弧线</span><br><span class="line">&lt;svg width=&quot;500&quot; height=&quot;300&quot; viewBox=&quot;0 0 500 300&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;m 100 100 a 200 100 0 1 1 100 100&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419231701463?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//  large-arc-flag = 1 ；sweep-flag = 0 </span><br><span class="line">// 选取逆时针大弧线</span><br><span class="line">&lt;svg width=&quot;500&quot; height=&quot;300&quot; viewBox=&quot;0 0 500 300&quot;&gt;</span><br><span class="line">	&lt;path d=&quot;m 100 100 a 200 100 0 1 0 100 100&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180419231853790?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//  large-arc-flag = 0 ；sweep-flag = 0 </span><br><span class="line">// 选取逆时针小弧线</span><br><span class="line">&lt;svg width=&quot;500&quot; height=&quot;300&quot; viewBox=&quot;0 0 500 300&quot;&gt;</span><br><span class="line">&lt;path d=&quot;m 100 100 a 200 100 0 1 1 100 100&quot; stroke=&quot;#000&quot; fill=&quot;transparent&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/201804192320450?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>SVG 的基本绘制概念就是这些了，下一篇将介绍一些 text ，g，use 等概念。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/04/02/svg_2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/02/svg_2/" itemprop="url">SVG 详解（二）基本概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T18:03:29+08:00">
+                2018-04-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/02/svg_2/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/04/02/svg_2/" class="cy_cmt_count" data-xid="2018/04/02/svg_2/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#SVG 实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 一个 SVG 文件</span><br><span class="line">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; </span><br><span class="line">&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;</span><br><span class="line">xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot;</span><br><span class="line">stroke-width=&quot;2&quot; fill=&quot;red&quot;/&gt;</span><br><span class="line"></span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>代码解释</strong></p>
+<p>第一行包含了 XML 声明。请注意 standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用。</p>
+<p>standalone=”no” 意味着 SVG 文档会引用一个外部文件 - 在这里，是 DTD 文件。</p>
+<p>第二和第三行引用了这个外部的 SVG DTD。该 DTD 位于 “<a href="http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd”。该" target="_blank" rel="noopener">http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd”。该</a> DTD 位于 W3C，含有所有允许的 SVG 元素。</p>
+<blockquote>
+<p>DTD（文档类型定义）的作用是定义 XML 文档的合法构建模块。</p>
+</blockquote>
+<blockquote>
+<p>DTD 可被成行地声明于 XML 文档中，也可作为一个外部引用。</p>
+</blockquote>
+<p>SVG 代码以 &lt;svg&gt; 元素开始，包括开启标签 &lt;svg&gt; 和关闭标签 &lt;/svg&gt; 。这是根元素。width 和 height 属性可设置此 SVG 文档的宽度和高度。version 属性可定义所使用的 SVG 版本，xmlns 属性可定义 SVG 命名空间。</p>
+<p>SVG 的 &lt;circle&gt; 用来创建一个圆。cx 和 cy 属性定义圆中心的 x 和 y 坐标。如果忽略这两个属性，那么圆点会被设置为 (0, 0)。r 属性定义圆的半径。</p>
+<p>stroke 和 stroke-width 属性控制如何显示形状的轮廓。我们把圆的轮廓设置为 2px 宽，黑边框。</p>
+<p>fill 属性设置形状内的颜色。我们把填充颜色设置为红色。</p>
+<p>关闭标签的作用是关闭 SVG 元素和文档本身。</p>
+<p>注释：所有的开启标签必须有关闭标签！</p>
+<p>#在 Html 中使用</p>
+<ul>
+<li>&lt;embed&gt; 标签<br>优势：所有主要浏览器都支持，并支持HTML4，XHTML和HTML5标准<br>缺点：不允许使用脚本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=&quot;circle1.svg&quot; type=&quot;image/svg+xml&quot;&gt;&lt;/object&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&lt;object&gt; 标签<br>优势：所有主要浏览器都支持，并支持HTML4，XHTML和HTML5标准<br>缺点：不允许使用脚本。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;object data=&quot;circle1.svg&quot; type=&quot;image/svg+xml&quot;&gt;&lt;/object&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>&lt;iframe&gt; 标签<br>优势：所有主要浏览器都支持，并允许使用脚本<br>缺点：不推荐在HTML4和XHTML中使用（但在HTML5允许）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;iframe src=&quot;circle1.svg&quot;&gt;&lt;/iframe&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接在HTML嵌入SVG代码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; version=&quot;1.1&quot;&gt;</span><br><span class="line">   &lt;circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot; stroke-width=&quot;2&quot; fill=&quot;red&quot; /&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>链接到SVG文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;circle1.svg&quot;&gt;View SVG file&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>直接作为 img 标签使用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=&quot;circle1.svg&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<h1 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 示例</span><br><span class="line">&lt;svg x=&quot;0&quot; y=&quot;0&quot; width=&quot;500&quot; height=&quot;200&quot; viewBox=&quot;0 0 50 20&quot; &gt;</span><br><span class="line">	&lt;rect x=&quot;20&quot; y=&quot;10&quot; width=&quot;10&quot; height=&quot;5&quot;</span><br><span class="line">	style=&quot;stroke: #000000; fill:none;&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>viewport</strong><br>指的是 x ，y，width，height 这四个属性在页面上固定的矩形区域，svg 标签所占的区域大小。</p>
+</li>
+<li><p><strong>viewbox</strong><br>指的是，svg 标签在 viewport 中的实际占位。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">viewBox=&quot;x, y, width, height&quot;  // x:左上角横坐标，y:左上角纵坐标，width:宽度，height:高度</span><br></pre></td></tr></table></figure>
+<p>例如最上面的的示例，svg 中的单位尺寸就变成 200/20px = 10px。所以其中的矩形实际大小是 [200, 100] 到 [100,50]。<br><strong>需要注意一点，svg 中子标签是不能带单位的，单位在 svg 标签中初始化。</strong></p>
+<pre><code>css 常见的单位
+&gt; 单位    含义
+em    相对于父元素的字体大小
+ex    相对于小写字母&quot;x&quot;的高度
+px    相对于屏幕分辨率而不是视窗大小：通常为1个点或1/72英寸
+in    inch, 表英寸
+cm    centimeter, 表厘米
+mm    millimeter, 表毫米
+pt    1/72英寸
+pc    12点活字，或1/12点
+%    相对于父元素。正常情况下是通过属性定义自身或其他元素
+</code></pre><ul>
+<li><p><strong>preserveAspectRatio</strong><br>用来定义 viewport 和 viewbox 相互对齐的方式。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">preserveAspectRatio=&quot;align meetOrSlice&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>align</strong>: 定义 viewport 和 viewbox 的对齐方式，分为 x,y 轴两个方向。X轴方向有三种方式：左边重合（xMin），x 轴中点重合（xMid），右边重合（xMax）。同理，Y 轴也有 顶边重合（YMin），y 轴中点重合（YMid），底边边重合（YMax）</li>
+<li><p><strong>meetOrSlice</strong>: 定义 SVG 是内嵌（meet）、裁剪（slice）或是 none</p>
+<p>align 的默认值是 xMidYMid，中点重合<br><img src="https://img-blog.csdn.net/20180402163612354?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>可以看出，viewbox 是通过中心进行延展的。注意，它的原点坐标还是在 viewbox 的左上角。如果你是动态增加尺寸的话，此时并不是从左到右增加，而是从中心向两端扩张。同理，如果你使用的是 xMinYMin 的话，那么如果存在尺寸变化，那么相对点则是从左上角开始的。简单来说，align 相对点其实一共有 9 个。<br><img src="https://img-blog.csdn.net/20180402164141713?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;svg width=&quot;400&quot; height=&quot;200&quot; viewBox=&quot;0 0 200 200&quot; preserveAspectRatio=&quot;xMinYMin slice&quot; style=&quot;border:1px solid #000000;&quot;&gt;</span><br><span class="line">    &lt;rect x=&quot;10&quot; y=&quot;10&quot; width=&quot;150&quot; height=&quot;150&quot; fill=&quot;#7276&quot;/&gt;</span><br><span class="line">&lt;/svg&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>这里宽度的缩放比和高度缩放比如下</p>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scale_x = 400/200 = 2</span><br><span class="line">scale_y = 200/200 = 1</span><br></pre></td></tr></table></figure>
+</code></pre><p>meet(默认值): 保持纵横比缩放viewBox适应viewport，使 svg 尽可能的显示在 viewport 里，会在 scale_x 和 scale_y 中选择最小的值作为缩放标准。</p>
+<pre><code>slice: 保持纵横比同时比例小的方向放大填满viewport，使 svg 完全铺满 viewport，会在 scale_x 和 scale_y 中选择最大的值作为缩放标准。
+
+none: 扭曲纵横比以充分适应viewport
+
+
+
+如果为 meet ，此时的缩放比例为 1，效果如下图
+</code></pre><p><img src="https://img-blog.csdn.net/2018040217083853?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<pre><code>如果为 slice，缩放比为 2，效果如下图
+![这里写图片描述](https://img-blog.csdn.net/20180402165938776?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+
+如果为 none，效果如下图
+![这里写图片描述](https://img-blog.csdn.net/20180402171343166?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/04/02/svg_1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/02/svg_1/" itemprop="url">Svg 详解（一）背景</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-02T10:57:40+08:00">
+                2018-04-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/04/02/svg_1/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/04/02/svg_1/" class="cy_cmt_count" data-xid="2018/04/02/svg_1/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  961
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  3
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>#图片数字化背景</p>
+<p>将图片存储为数据有两种方案。</p>
+<p>其一为位图，也被称为光栅图。即是以自然的光学的眼光将图片看成在平面上密集排布的点的集合。每个点发出的光有独立的频率和强度，反映在视觉上，就是颜色和亮度。这些信息有不同的编码方案，在互联网上最常见的就是 RGB 。根据需要，编码后的信息可以有不同的位( bit )数——位深。位数越高，颜色越清晰，对比度越高；占用的空间也越大。另一项决定位图的精细度的是其中点的数量。一个位图文件就是所有构成其的点的数据的集合，它的大小自然就等于点数乘以位深。位图格式是一个庞大的家族，包括常见的 JPEG/JPG, GIF, PNG。</p>
+<p>第二种方案为矢量图。它用抽象的视角看待图形，记录其中展示的模式而不是各个点的原始数据。它将图片看成各个“对象”的组合，用曲线记录对象的轮廓，用某种颜色的模式描述对象内部的图案（如用梯度描述渐变色）。比如一张留影，被看成各个人物和背景中各种景物的组合。这种更高级的视角，正是人类看世界时在意识里的反映。矢量图格式有 SVG, AI ( Adobe Illustrator ), PDF 等等。</p>
+<p>矢量图中简单的几何图形，只需要几个特征数值，就可以确定。比如三角形，只需要确定三个顶点的坐标。圆只需要确定圆心的坐标和半径。描述它的函数已知的曲线也只需要几个参数就能够确定。如正弦曲线、各种螺线等等。如果用位图记录这些几何图案，则需要包含组成线条的各个像素的数据。除了大大节省空间，矢量图还具有完美的伸缩性。因为记录的是图形的特征，图形的尺寸任意变化时，都只是做着相似变换，不会出现模糊和失真。相反位图的图片放大到超出原有大小时，各个像素点之间出现空缺，即使用某种算法填充，也会出现模糊锯齿等现象，不如矢量图精确。因而矢量图很适合用于记录诸如符号、图标等简单的图形。而位图则适合于没有明显规律的、颜色丰富细腻的图片。</p>
+<p>#什么是 SVG ？</p>
+<ul>
+<li>SVG 指可伸缩矢量图形 (Scalable Vector Graphics)</li>
+<li>SVG 用来定义用于网络的基于矢量的图形</li>
+<li>SVG 使用 XML 格式定义图形，描述 2D 图形的语言</li>
+<li>SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失</li>
+<li>SVG 是万维网联盟的标准</li>
+<li>SVG 与诸如 DOM 和 XSL 之类的 W3C 标准是一个整体</li>
+</ul>
+<p>#SVG 的优势？</p>
+<ul>
+<li>SVG 可被非常多的工具读取和修改（比如记事本）</li>
+<li>SVG 与 JPEG 和 GIF 图像比起来，尺寸更小，且可压缩性更强。</li>
+<li>SVG 是可伸缩的</li>
+<li>SVG 图像可在任何的分辨率下被高质量地打印</li>
+<li>SVG 可在图像质量不下降的情况下被放大</li>
+<li>SVG 图像中的文本是可选的，同时也是可搜索的（很适合制作地图）</li>
+<li>SVG 可以与 Java 技术一起运行 (Batik)</li>
+<li>SVG 于 2003 年 1 月 14 日成为 W3C 推荐标准</li>
+<li>SVG 文件是纯粹的 XML</li>
+</ul>
+<p>SVG 的主要竞争者是 Flash。<br>与 Flash 相比，SVG 最大的优势是与其他标准（比如 XSL 和 DOM）相兼容。而 Flash 则是未开源的私有技术。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/03/30/canvas_todataurl_err/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/03/30/canvas_todataurl_err/" itemprop="url">Canvas 使用 toDataUrl 导出图片的各类错误</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-30T15:14:00+08:00">
+                2018-03-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/03/30/canvas_todataurl_err/#SOHUCS" itemprop="discussionUrl">
+                  <span id="url::https://lwpersonal.cn/2018/03/30/canvas_todataurl_err/" class="cy_cmt_count" data-xid="2018/03/30/canvas_todataurl_err/" itemprop="commentsCount" ></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>前不久接到一个活动需求，用户拍照然后结合相应的素材生成另一张图片并分享传播。因为个人对 Canvas 很感兴趣就兴致勃勃的接下来了，后期遇到很多有意思的坑，分享一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 绘制上下文获取</span><br><span class="line">var doc = document</span><br><span class="line">var can = doc.getElementById(&apos;canvas&apos;)</span><br><span class="line">var ctx = can.getContext(&apos;2d&apos;)</span><br></pre></td></tr></table></figure>
+<p>首先是获取用户的图片文件，这里使用 input 标签获取</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// Html:</span><br><span class="line">&lt;input type=&quot;file&quot; class=&quot;js_photo_input&quot; id=&quot;input&quot; accept=&quot;image/*&quot; multiple style=&quot;display: none;&quot;/&gt;</span><br><span class="line">&lt;div id=&quot;input&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">// JS</span><br><span class="line">// 因为 input 的样式是不能重写的，这里使用一个 div 绑定 click 事件去触发文件选择</span><br><span class="line">doc.getElementById(&apos;input&apos;).click()</span><br><span class="line">// 绑定事件，监听文件获取</span><br><span class="line">$(&apos;.js_photo_input&apos;).on(&apos;change&apos;, fileChanged)</span><br></pre></td></tr></table></figure>
+<p>这里有一个需要注意的点，iPhone 下竖屏拍照，系统会自动将图片旋转，导致输出的图片与拍照时显示不一致。这里需要使用相关的接口处理一下。<br><a href="https://stackoverflow.com/questions/7584794/accessing-jpeg-exif-rotation-data-in-javascript-on-the-client-side" target="_blank" rel="noopener">详细介绍</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">// 获取用户选择的文件</span><br><span class="line">function fileChanged(e) &#123;</span><br><span class="line">	var files = e.target.files</span><br><span class="line">	if(files[0])&#123;</span><br><span class="line">		// 获取文件后使用 getOrientation 函数处理</span><br><span class="line">		getOrientation(files[0], function(orientation) &#123;</span><br><span class="line">			// orientation 是图片的旋转系数，参考下面的图</span><br><span class="line">			// 一般情况下 iPhone 对图片的旋转为下图的情况 6</span><br><span class="line">			// ctx.rotate(90 * Math.PI / 180) 旋转90度</span><br><span class="line">			// 然后使用 canvas 处理，导出新的图片即可</span><br><span class="line">		&#125;)</span><br><span class="line">		return fileHandleShow(files[0])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function getOrientation(file, callback) &#123;</span><br><span class="line">	// iphone 下图片被系统旋转</span><br><span class="line">	var reader = new FileReader()</span><br><span class="line">	reader.onload = function(e) &#123;</span><br><span class="line"></span><br><span class="line">		var view = new DataView(e.target.result)</span><br><span class="line">		if (view.getUint16(0, false) != 0xFFD8) return callback(-2)</span><br><span class="line">		var length = view.byteLength, offset = 2</span><br><span class="line">		while (offset &lt; length) &#123;</span><br><span class="line">			var marker = view.getUint16(offset, false)</span><br><span class="line">			offset += 2</span><br><span class="line">			if (marker == 0xFFE1) &#123;</span><br><span class="line">				if (view.getUint32(offset += 2, false) != 0x45786966) return callback(-1)</span><br><span class="line">				var little = view.getUint16(offset += 6, false) == 0x4949</span><br><span class="line">				offset += view.getUint32(offset + 4, little)</span><br><span class="line">				var tags = view.getUint16(offset, little)</span><br><span class="line">				offset += 2</span><br><span class="line">				for (var i = 0; i &lt; tags; i++)</span><br><span class="line">					if (view.getUint16(offset + (i * 12), little) == 0x0112)</span><br><span class="line">						return callback(view.getUint16(offset + (i * 12) + 8, little))</span><br><span class="line">			&#125;</span><br><span class="line">			else if ((marker &amp; 0xFF00) != 0xFF00) break</span><br><span class="line">			else offset += view.getUint16(offset, false)</span><br><span class="line">		&#125;</span><br><span class="line">		return callback(-1)</span><br><span class="line">	&#125;;</span><br><span class="line">	reader.readAsArrayBuffer(file.slice(0, 64 * 1024))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://img-blog.csdn.net/20180329165231882?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI1MjQzNDUx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
+<p>然后到了绘制步骤，图片必须加载完成后才可以绘制，否则绘制不出图像，不多说。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var img = new Image()</span><br><span class="line">img.src = &apos;url&apos;// 图片的地址</span><br><span class="line">img.onload = function() &#123;</span><br><span class="line">	var _this = this</span><br><span class="line">	ctx.drawImage(_this, 0, 0, 100, 100)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 iPhone 中，用户拍照的图片动辄上10M，再经过 canvas 处理为 base64 格式，体积非常大，所以需要使用 canvas 压缩处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var img = new Image()</span><br><span class="line">img.src = &apos;url&apos; // 图片的地址</span><br><span class="line">img.onloda = function() &#123;</span><br><span class="line">	var quality = 0.5 // 压缩系数，默认是 8.1 范围 0 ～ 1</span><br><span class="line">	//生成canvas</span><br><span class="line">	var canvas = document.createElement(&apos;canvas&apos;)</span><br><span class="line">	var ctx = canvas.getContext(&apos;2d&apos;)</span><br><span class="line">	var w = that.width, h = that.height</span><br><span class="line">	var anw = document.createAttribute(&quot;width&quot;)</span><br><span class="line">	anw.nodeValue = w</span><br><span class="line">	var anh = document.createAttribute(&quot;height&quot;)</span><br><span class="line">	anh.nodeValue = h</span><br><span class="line">	canvas.setAttributeNode(anw)</span><br><span class="line">	canvas.setAttributeNode(anh)</span><br><span class="line">	ctx.drawImage(that, 0, 0, w, h)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var base64 = canvas.toDataURL(&apos;image/jpeg&apos;, quality) // 这里得到压缩后的 base64 格式的图片</span><br></pre></td></tr></table></figure>
+<p>接下来使用 drawImage 绘制图片，使用 toDataUrl 导出。导出的时候要注意，如果有跨域图片资源，会报错。由于我们的项目资源都是放在 CDN 的，所以有跨域的问题，导致导出图片失败。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 错误信息</span><br><span class="line">Uncaught DOMException: Failed to execute &apos;toDataURL&apos; on &apos;HTMLCanvasElement&apos;: Tainted canvases may not be exported</span><br><span class="line"></span><br><span class="line">// 大致意思是，画布已经被污染，无法导出</span><br><span class="line">// 这里是因为 canvas 在安全方面做了限制</span><br><span class="line"></span><br><span class="line">// 解决方案有两种</span><br><span class="line">// 第一种就是把图片放在本域下，这样就没有跨域问题了</span><br><span class="line"></span><br><span class="line">// 第二种方案是，存放图片的服务器进行配置</span><br><span class="line">// 或者参数只配置页面的域名</span><br><span class="line">Access-Control-Allow-Origin=&quot;*&quot;</span><br><span class="line"></span><br><span class="line">// 然后在导出的图片设置相关属性</span><br><span class="line">var image = new Image()</span><br><span class="line">image.setAttribute(&apos;crossOrigin&apos;,&apos;anonymous&apos;) // 设置属性 crossOrigin</span><br><span class="line">image.src = can.toDataURL(&apos;image/jpeg&apos;, 0.6)</span><br><span class="line">// 然后就可以导出了</span><br><span class="line"></span><br><span class="line">// 两种解决方法都有缺陷，视情况选择</span><br></pre></td></tr></table></figure>
+<p>然后就可以正确导出了，这里图片一般都是要经过服务器处理存储的，如果图片过大可能会导致图片上传损坏，所以对图片的压缩处理很重要。</p>
+<h2 id="最近找到了比较完美的解决方法，下面贴出来"><a href="#最近找到了比较完美的解决方法，下面贴出来" class="headerlink" title="最近找到了比较完美的解决方法，下面贴出来"></a>最近找到了比较完美的解决方法，下面贴出来</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 在 URL 后面加一个时间戳就不会报错了，也不需要服务端设置</span><br><span class="line"></span><br><span class="line">var img = new Image();</span><br><span class="line">var timestamp = new Date().getTime();</span><br><span class="line">img.setAttribute(&apos;crossOrigin&apos;, &apos;anonymous&apos;);</span><br><span class="line">img.src = url + &apos;?&apos; + timestamp;</span><br></pre></td></tr></table></figure>
+<p><a href="https://stackoverflow.com/questions/20424279/canvas-todataurl-securityerror" target="_blank" rel="noopener">详细链接</a></p>
+<p>原文链接：<a href="https://blog.csdn.net/qq_25243451/article/details/79758132" target="_blank" rel="noopener">https://blog.csdn.net/qq_25243451/article/details/79758132</a></p>
 
           
         
@@ -686,6 +2665,10 @@
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -733,7 +2716,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -755,7 +2738,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -830,7 +2813,7 @@
 
   <div class="theme-info">
     <div class="powered-by"></div>
-    <span class="post-count">博客全站共&nbsp;1.2k&nbsp;字</span>
+    <span class="post-count">博客全站共&nbsp;28.7k&nbsp;字</span>
   </div>
 
 

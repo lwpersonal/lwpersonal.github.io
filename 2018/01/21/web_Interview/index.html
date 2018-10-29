@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="面试," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近一直在忙着各种面试，也算是有些经验，总结一下。来北京之前面了两家，在北京面了三家，反馈都还不错。最大的体会就是，技术这一块还是要来北京工作，二三线城市的技术发展还是很不完善的。 先说简历，这个知乎上有很多写的不错的文章可以去搜一下，下面简单写一下注意点。  要明确的标出工作年限，这一点很重要，很多人的简历筛选不到这几个关键字。 项目经验在精而不在多，一定要把简历上的每一个项目详细的描述，要包括">
+<meta name="keywords" content="面试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="前端面试">
+<meta property="og:url" content="https://lwpersonal.cn/2018/01/21/web_Interview/index.html">
+<meta property="og:site_name" content="安冉">
+<meta property="og:description" content="最近一直在忙着各种面试，也算是有些经验，总结一下。来北京之前面了两家，在北京面了三家，反馈都还不错。最大的体会就是，技术这一块还是要来北京工作，二三线城市的技术发展还是很不完善的。 先说简历，这个知乎上有很多写的不错的文章可以去搜一下，下面简单写一下注意点。  要明确的标出工作年限，这一点很重要，很多人的简历筛选不到这几个关键字。 项目经验在精而不在多，一定要把简历上的每一个项目详细的描述，要包括">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-10-29T02:15:51.314Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="前端面试">
+<meta name="twitter:description" content="最近一直在忙着各种面试，也算是有些经验，总结一下。来北京之前面了两家，在北京面了三家，反馈都还不错。最大的体会就是，技术这一块还是要来北京工作，二三线城市的技术发展还是很不完善的。 先说简历，这个知乎上有很多写的不错的文章可以去搜一下，下面简单写一下注意点。  要明确的标出工作年限，这一点很重要，很多人的简历筛选不到这几个关键字。 项目经验在精而不在多，一定要把简历上的每一个项目详细的描述，要包括">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lwpersonal.cn/2018/01/21/web_Interview/"/>
+
+
+
+
+
+  <title>前端面试 | 安冉</title>
+  
+
+
+
+
+
+
+
+
+  <style>
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+  0%,100% { transform:rotate(0)}
+  20%,60% { transform:rotate(-25deg) }
+  40%,80% { transform:rotate(10deg) }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
+  }
+}
+</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/lwpersonal" class="github-corner" aria-label="View source on Github">
+      <svg width="92" height="92" viewBox="0 0 250 250" style="fill:#151513;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true">
+        <path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path>
+        <path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path>
+        <path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path>
+      </svg>
+    </a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安冉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/01/21/web_Interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">前端面试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-21T13:12:58+08:00">
+                2018-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/01/21/web_Interview/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/01/21/web_Interview/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  10
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近一直在忙着各种面试，也算是有些经验，总结一下。<br>来北京之前面了两家，在北京面了三家，反馈都还不错。最大的体会就是，技术这一块还是要来北京工作，二三线城市的技术发展还是很不完善的。</p>
+<p>先说简历，这个知乎上有很多写的不错的文章可以去搜一下，下面简单写一下注意点。</p>
+<ul>
+<li>要明确的标出工作年限，这一点很重要，很多人的简历筛选不到这几个关键字。</li>
+<li>项目经验在精而不在多，一定要把简历上的每一个项目详细的描述，要包括项目的功能、项目描述、自己负责的工作等等。</li>
+<li>还有简历的篇幅，尽量不要加封面，简历最好一页最多两页再多就没有必要了。</li>
+<li>根据你要投的公司去写你的简历，要准备有不同侧重点的简历。</li>
+</ul>
+<p>简历最好还是不要海投（视情况），找几家自己看着不错的公司针对性的投一下，去之前对公司做一些了解会加分，如果你能针对他们的招聘信息对自己做一些规划那就能表现出很大的诚意了，一定会被优先考虑。</p>
+<p>一般正规的面试都会分好几面，但是小公司很可能只有技术和你聊一聊，连 hr 都见不到，所以有机会还是去规模大一点的公司面试，试一下。</p>
+<p>聊一下我的面试经历吧</p>
+<ul>
+<li>电话面试 1<br>先是自我介绍，然后面试官没有任何提问。这个时候如果你不说点什么就有点尴尬了，所以一定要提前准备能独自表演一个小时以上的一篇面试稿。其中可以说你学习前端的一些经历，之前做过的项目什么的，因为很可能对方也不知道要问你什么。我这时候选择说我的项目经历，在我独自表演的过程中面试官根据描述问了很多针对性的问题。当时的面试没有问到具体技术相关的知识，聊了有一个小时，基本上都是我在说，所以提前准备是很重要的。整体面试很不错，可惜当时还没来北京，近期不能去公司面试，等我一个月后来北京的时候公司已经招到人了。。。</li>
+</ul>
+<blockquote>
+<p>你说你平时喜欢做一些微动画加强用户体验，比如说有哪些？（所以说不要给自己挖太大的坑）<br>项目中你遇到过哪些问题，你是怎么解决的？（这个问题几乎都会问到）<br>如果给你一个项目，你会怎么去搭建他，会考虑什么问题？</p>
+</blockquote>
+<ul>
+<li>电话面试 2<br>还是简单的自我介绍，然后直接步入正题，问了很多 JS 基础的知识，面试官问的很快基本上没有多少思考的时间，如果你对这块的知识没有了解很容易卡住。</li>
+</ul>
+<blockquote>
+<p>如何查看一个对象的属性是继承来的还是他自己的？<br>说一下你了解的 ES6 的 Api ？<br>纯 CSS 如何实现宽度自适应，高度成比例，比如一个正方形？（这个问题当时一脸懵逼，但是就算你不会，错误的也要继续说下去，这个时候要表现的就是你思考问题的一个思路了。后来下去自己思考了一下，发现纯 CSS 还是可以实现的）<br>因为我上一个问题卡住了，所以他追问，为什么要用纯 CSS 而不是用 JS 呢？<br>做项目中遇到的比较深刻的问题，你是怎么解决的，思路是什么？（总结很重要）<br>new 和普通的 function 的区别？<br>apply 作用？</p>
+</blockquote>
+<ul>
+<li>面试 1 （小规模公司 - 20人+）<br>整个面试很不成功，只有一个技术人员对我面试。虽然这是我人生中第一次面试，但是我还是能感觉到面试官很不专业。我在简历中写到的熟练的知识点一个都没有问，反而是抓着我了解这一模块的知识点对我追问。最后面了不到20分钟就结束了，让我回去等结果，说 hr 那边他去聊工资（一脸懵逼）。。。下午收到电话，说面试过了，让我明天带着自己的电脑去公司试岗5到6天，根据我的具体操作给工资。也是刷新了我的三观，果断拒了。<br>这个面试，面试官对我的评价就是学的东西比较杂，范围广。</li>
+</ul>
+<blockquote>
+<p>自我介绍 ？<br>H5 有哪些 ？C3 有哪些？<br>响应式怎么实现 ？<br>NodeJs 了解多少 ？<br>ES6 了解多少？<br>小程序了解多少？<br>小程序怎么直接操作 DOM？（我小程序写的是了解啊。。而且我后来查了一下，小程序没有类似 Vue 和 React 使用 ref 操作 DOM 的方法。）<br>小程序和普通 JS 的区别是什么？写法有什么区别？（。。。）</p>
+</blockquote>
+<ul>
+<li>面试 2 （公司规模还好 100+）<br>去了先做一份面试题，有差不多20道题，给了一张白纸，我当时一脸懵逼啊，这怎么写得下？一道题就要半页的好吧。。。面试题写了有1个小时多，写了三页。然后让我等着，把面试题答案给他们的项目经理看，然后又等了半个小时。接下来他们的人事主管和我聊，对我认真这一块比较看重，他们以前面试从来没有人面试题写三页的。。。然后就是和项目经理聊，这一块就是打压你，问到你怀疑人生，觉得自己前端的知识白学了。然后人事又来和我谈，介绍公司，对我的发展有什么好处，工资多少等等。整个面试有3个多小时的时间，当时我说明天给公司回复，考虑了一下第二天也拒了。<br>面试完公司看重的地方是认真负责，基础比较扎实。以前的项目比较简单，所以经验不足。</li>
+</ul>
+<blockquote>
+<p>其中的一部分笔试题<br>H5？<br>XHTML 和 HTML 区别？<br>语义化？<br>行内，块级元素？<br>C3？<br>了解的CSS浏览器兼容？<br>CSS引入的方式？@import 和 link 的区别？<br>盒子模型？<br>如何居中浮动元素？<br>position 的值，区别？<br>DOM 模型？BOM 模型？<br>jQuery 的 ready 和 window.onload 的区别？<br>二维数组？<br>正则表达式，电话号码？<br>ajax ，异步同步？<br>IE 和 FF 的 JS 兼容？<br>5年内职业规划？<br>前端优化知识？<br>一个大型网站如何管理图片等静态资源？<br>对前端这个行业看法如何？</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>面试<br>自我介绍？<br>项目经验描述？<br>Vue 的原理？</p>
+</blockquote>
+<ul>
+<li>面试 3 （小规模公司 20+）<br>这个面试也比较懵逼啊。一个技术来面我，问了一些比较浅的问题，面完后也是告诉我，他和 hr 聊工资没我什么事。当时面了15分钟就完了，问的问题比较简单，感觉回答的很不错。然后就没有下文，完全不知道自己被刷在哪。</li>
+</ul>
+<blockquote>
+<p>自我介绍？项目经验描述？<br>为什么来北京？为什么离开前一家公司？<br>对自己三年内的职业规划？<br>JS 原型链？<br>ES6？<br>H5，C3？<br>Vue ？</p>
+</blockquote>
+<ul>
+<li>面试 4 （规模不错的公司 500+）<br>这个面试比较正规，分四面。对你的整个知识体系和能力都能做完善的评估。一面和二面是偏技术的，问了很多底层的知识，完全被问懵逼了，有一半的问题都回答不上来。在我以为没下文的时候 CTO 进来了，问了一些偏广度的问题，最后是 hr 来聊福利，聊薪酬，问问你对公司的看法之类的。这个面试面了有将近5个小时，最后6：30太晚了，留了电话后面继续聊工资。整体感觉面试很正规，能把你知识的深度和广度都了解到。</li>
+</ul>
+<blockquote>
+<p>一面<br>自我介绍？项目描述？（功能就这些？就是一个简单的项目是吧？。。。）<br>H5，C3？<br>ES6？问了一些 promise 的问题，给了一些代码让你分析流程。<br>事件的冒泡和捕获？同时在一组 DOM 上绑定冒泡和捕获的事件，他该怎么触发？（问到前面我一脸窃喜，后面的问题一脸懵逼）<br>Vue 原理？<br>跨域方案？什么是跨域？<br>平时怎么学框架或者前端知识？在哪些途径学？<br>然后问了一些代码题，分析结果，流程。<br>现场编译，用 setTimeout 实现定时触发 setInterval （arguments.callee，还有严格模式下实现）</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>二面<br>自我介绍？项目经验描述？<br>Vue 原理？<br>MobX 和 VueX 是什么原理？怎么实现的？其中的 Store 是什么？<br>自己用 webpack 搭建 Vue 项目，而不是用 vue-cli 怎么搭建？webpack 配置？<br>如何规划一个项目？<br>然后出了四道面试题让我写一下，半小时时间。尴尬。。只写出来两道。。</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>三面<br>自我介绍？项目经验描述？<br>对 NodeJs 有了解？使用 NodeJs 遇到的问题，数据库操作？<br>你是自学前端？那平时是如何学习前端的？<br>你觉得自己的学习能力怎么样？<br>为什么年前来北京，而不是年后拿了年终奖再来？<br>对 Vue 和 React 的看法？<br>为什么要使用 TypeScript ，有什么好处？<br>问了一些 React Native 方面的东西<br>近三年的自我规划，有没有考虑架构、管理转型？</p>
+</blockquote>
+<hr>
+<blockquote>
+<p>四面<br>就是 hr 和你聊工资福利，对公司的看法怎么样。学的框架和公司的不一样你是怎么考虑的之类的。</p>
+</blockquote>
+<ul>
+<li>面试 5 （小规模公司 20+）<br>上面的第二个电话面试。<br>公司整体团队不大，但是技术方面的团队比较不错。面试去了写一份面试题，然后分两个负责人面试。最后聊的还不错，但是我去那天公司已经招到人了。问我有没有全栈的想法，我个人的话全栈还是考虑 NodeJs 但是公司要用 Java，问我有没有学的打算，最后留了联系方式后面聊。一天以后负责人联系我，说公司考虑业务方面的扩展，要再招一个前端，但是我当时已经打算进一家公司就拒了。<br>整体面试官的评价还是基础比较好但是项目经验不足。<br>面试题是我在 GitHub 上看到的一份面试题，所以答得还不错。<br>后面的问题也都上面提到的一些问题，这里就不放了。</li>
+</ul>
+<p>最后总结，三线城市的一些经验一些大公司都认为比较简单，不是特别承认。而且在小公司没有特别多人的团队，对自己的认知会产生严重的偏差。就比如我这块，因为是自学，所以觉得自己前端这块的基础比较差，但是做过4个左右项目，觉得自己的优势在项目经验这块。但是实际的面试反馈却完全相反。<br>最后放一下我简历上自己的技术栈，供上面的经历参考。</p>
+<p>HTML：HTML5，语义化<br>CSS：CSS3，响应式<br>JavaScript：模块化，组件化<br>熟练：JQ，Vue2，ES6<br>掌握：RN，webpack，stylus，Scss，TypeScript<br>熟悉：微信小程序，NodeJs，expressjs，PS等</p>
+<p>原文链接：<a href="http://blog.csdn.net/qq_25243451/article/details/79119498" target="_blank" rel="noopener">http://blog.csdn.net/qq_25243451/article/details/79119498</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;margin: 20px 0 0;">-------------正文到此结束<i class="fa fa-paw"></i>转载请注明原址-------------</div>
+    
+</div>
+      </div>
+      <div>
+        
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/面试/" rel="tag"># 面试</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/29/vue_component_ement/" rel="next" title="vue如何像Element那样封装组件">
+                <i class="fa fa-chevron-left"></i> vue如何像Element那样封装组件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/02/03/gulp_webpack_react/" rel="prev" title="gulp + webpack 搭建项目环境">
+                gulp + webpack 搭建项目环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="安冉" />
+            
+              <p class="site-author-name" itemprop="name">安冉</p>
+              <p class="site-description motion-element" itemprop="description">温佳伟的个人博客<安冉></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lwpersonal" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/xue-wu-zhi-jing-9-15/activities" target="_blank" title="知乎">
+                      知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/dc0cf2cb01f8" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://me.csdn.net/qq_25243451" target="_blank" title="CSDN">
+                      CSDN</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://segmentfault.com/u/lwpersonal" target="_blank" title="SegmentFault">
+                      SegmentFault</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/58c7826744d904006808e3d4" target="_blank" title="掘金">
+                      掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/oQCXjovhhoCpBUf" target="_blank" title="Twitter">
+                      Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/profile.php?id=100015842580113" target="_blank" title="FaceBook">
+                      FaceBook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+
+  <div class="">
+    <span id="busuanzi_container_site_uv">
+      本站总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;次
+    </span>
+  </div>
+
+
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共&nbsp;28.7k&nbsp;字</span>
+  </div>
+
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安冉</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytQ99i30';
+      var conf = '77eda6405b43078162120f53cb1c849f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <!-- <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script> -->
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

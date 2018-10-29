@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="GitLab," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="整理一下 .gitlab-ci.yml 文件的配置 原文档地址 job job 是一组具有约束的作业，可以指定无限数量的 job 。  job 被定义为具有任意名称的顶级元素，并且始终必须至少包含该 script 子句。  job 必须具有唯一的名称，下面是一些保留的关键字不可以作为 job 的名称。12345678imageservicesstagestypesbefore_scriptafte">
+<meta name="keywords" content="GitLab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 .gitlab-ci.yml 配置作业">
+<meta property="og:url" content="https://lwpersonal.cn/2018/09/13/gitlab_ci/index.html">
+<meta property="og:site_name" content="安冉">
+<meta property="og:description" content="整理一下 .gitlab-ci.yml 文件的配置 原文档地址 job job 是一组具有约束的作业，可以指定无限数量的 job 。  job 被定义为具有任意名称的顶级元素，并且始终必须至少包含该 script 子句。  job 必须具有唯一的名称，下面是一些保留的关键字不可以作为 job 的名称。12345678imageservicesstagestypesbefore_scriptafte">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-10-29T02:15:51.300Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 .gitlab-ci.yml 配置作业">
+<meta name="twitter:description" content="整理一下 .gitlab-ci.yml 文件的配置 原文档地址 job job 是一组具有约束的作业，可以指定无限数量的 job 。  job 被定义为具有任意名称的顶级元素，并且始终必须至少包含该 script 子句。  job 必须具有唯一的名称，下面是一些保留的关键字不可以作为 job 的名称。12345678imageservicesstagestypesbefore_scriptafte">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://lwpersonal.cn/2018/09/13/gitlab_ci/"/>
+
+
+
+
+
+  <title>使用 .gitlab-ci.yml 配置作业 | 安冉</title>
+  
+
+
+
+
+
+
+
+
+  <style>
+.github-corner:hover .octo-arm {
+  animation:octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+  0%,100% { transform:rotate(0)}
+  20%,60% { transform:rotate(-25deg) }
+  40%,80% { transform:rotate(10deg) }
+}
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation:none
+  }
+  .github-corner .octo-arm {
+    animation:octocat-wave 560ms ease-in-out
+  }
+}
+</style>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/lwpersonal" class="github-corner" aria-label="View source on Github">
+      <svg width="92" height="92" viewBox="0 0 250 250" style="fill:#151513;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true">
+        <path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path>
+        <path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path>
+        <path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path>
+      </svg>
+    </a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">安冉</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-首页">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-文章">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            文章
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-分类">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-关于我">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于我
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lwpersonal.cn/2018/09/13/gitlab_ci/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="安冉">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="安冉">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用 .gitlab-ci.yml 配置作业</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-09-13T17:03:14+08:00">
+                2018-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-comment-o"></i>
+              </span>
+              
+                <a href="/2018/09/13/gitlab_ci/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/09/13/gitlab_ci/" itemprop="commentsCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1.2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>整理一下 .gitlab-ci.yml 文件的配置</p>
+<p><a href="https://docs.gitlab.com/ee/ci/yaml/" target="_blank" rel="noopener">原文档地址</a></p>
+<h2 id="job"><a href="#job" class="headerlink" title="job"></a><strong>job</strong></h2><p> job 是一组具有约束的作业，可以指定无限数量的 job 。</p>
+<p> job 被定义为具有任意名称的顶级元素，并且始终必须至少包含该 script 子句。</p>
+<p> job 必须具有唯一的名称，下面是一些保留的关键字不可以作为 job 的名称。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">image</span><br><span class="line">services</span><br><span class="line">stages</span><br><span class="line">types</span><br><span class="line">before_script</span><br><span class="line">after_script</span><br><span class="line">variables</span><br><span class="line">cache</span><br></pre></td></tr></table></figure></p>
+<p> 作业由定义作业行为的参数列表定义</p>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>是否必须</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>script</td>
+<td>yes</td>
+<td>定义由Runner执行的shell脚本</td>
+</tr>
+<tr>
+<td>extends</td>
+<td>no</td>
+<td>定义此 job 将继承的配置条目</td>
+</tr>
+<tr>
+<td>image</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-image-and-services-from-gitlab-ciyml" target="_blank" rel="noopener">使用 Docker 镜像</a></td>
+</tr>
+<tr>
+<td>services</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#define-image-and-services-from-gitlab-ciyml" target="_blank" rel="noopener">使用 Docker 服务</a></td>
+</tr>
+<tr>
+<td>stage</td>
+<td>no</td>
+<td>定义 job 阶段（默认：test）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>no</td>
+<td>stage 的别名</td>
+</tr>
+<tr>
+<td>variables</td>
+<td>no</td>
+<td>在 job 级别定义 job 变量</td>
+</tr>
+<tr>
+<td>only</td>
+<td>no</td>
+<td>定义为其创建 job 的 git refs 列表</td>
+</tr>
+<tr>
+<td>except</td>
+<td>no</td>
+<td>定义未创建 job 的 git refs 列表</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>no</td>
+<td>定义用于选择Runner的标记列表</td>
+</tr>
+<tr>
+<td>allow_failure</td>
+<td>no</td>
+<td>允许 job 失败，失败的 job 不会贡献 commit status</td>
+</tr>
+<tr>
+<td>when</td>
+<td>no</td>
+<td>定义何时运行 job 。可以是 on_success，on_failure，always 或 manual</td>
+</tr>
+<tr>
+<td>dependencies</td>
+<td>no</td>
+<td>定义 job 所依赖的其他 job ，以便您可以在它们之间传递 artifacts</td>
+</tr>
+<tr>
+<td>extends</td>
+<td>no</td>
+<td><a href="https://docs.gitlab.com/ee/ci/yaml/README.html#artifacts" target="_blank" rel="noopener">job artifacts 依赖列表</a></td>
+</tr>
+<tr>
+<td>cache</td>
+<td>no</td>
+<td>定义后续运行之间应缓存的文件列表</td>
+</tr>
+<tr>
+<td>before_script</td>
+<td>no</td>
+<td>覆盖 job 前执行的一组命令</td>
+</tr>
+<tr>
+<td>after_script</td>
+<td>no</td>
+<td>覆盖 job 后执行的一组命令</td>
+</tr>
+<tr>
+<td>environment</td>
+<td>no</td>
+<td>定义此 job 完成部署的环境名称</td>
+</tr>
+<tr>
+<td>coverage</td>
+<td>no</td>
+<td>定义给定 job 的代码覆盖率设置</td>
+</tr>
+<tr>
+<td>retry</td>
+<td>no</td>
+<td>定义在发生故障时可以自动重试 job 的次数</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ul>
+<li>extends</li>
+</ul>
+<blockquote>
+<p>在 GitLab 11.3 中引入</p>
+</blockquote>
+<p>extends 定义要使用的 job extends 将继承的条目名称。</p>
+<p>extends 替代使用更灵活和可读的 <a href="https://docs.gitlab.com/ee/ci/yaml/#anchors" target="_blank" rel="noopener">YAML</a> 锚点。</p>
+<p>例如下面两段代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">.tests:</span><br><span class="line">  only:</span><br><span class="line">    refs:</span><br><span class="line">      - branches</span><br><span class="line"></span><br><span class="line">rspec:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake rspec</span><br><span class="line">  stage: test</span><br><span class="line">  only:</span><br><span class="line">    variables:</span><br><span class="line">      - $RSPEC</span><br></pre></td></tr></table></figure></p>
+<p>在上面的示例中，rspec作业将从 .tests 模板继承。GitLab 将执行反向深度合并，这意味着它将以递归方式合并 rspec 内容 </p>
+<p>.tests，并且将导致以下配置 rspec 作业：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rspec:</span><br><span class="line">  script: rake rspec</span><br><span class="line">  stage: test</span><br><span class="line">  only:</span><br><span class="line">    refs:</span><br><span class="line">      - branches</span><br><span class="line">    variables:</span><br><span class="line">      - $RSPEC</span><br></pre></td></tr></table></figure></p>
+<p>.tests在此示例中是<strong>隐藏密钥</strong>，但也可以从常规作业继承。</p>
+<p><strong>隐藏密钥：</strong></p>
+<blockquote>
+<p>在 GitLab 8.6 和 GitLab Runner v1.1.1 中引入。</p>
+</blockquote>
+<p>如果要暂时“禁用”作业，而不是注释掉定义作业的所有行，可以像下面这样</p>
+<p>你可以用点（.）开始它的名字，它不会被 GitLab CI 处理。在以下示例中，.hidden_job 将被忽略：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// 注释</span><br><span class="line">#hidden_job:</span><br><span class="line">#  script:</span><br><span class="line">#    - run test</span><br><span class="line"></span><br><span class="line">// 隐藏密钥</span><br><span class="line">.hidden_job:</span><br><span class="line">  script:</span><br><span class="line">    - run test</span><br></pre></td></tr></table></figure>
+<p>extends支持多级继承，但不建议使用三级以上的继承。支持的最大嵌套级别为10级。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.tests:</span><br><span class="line">  only:</span><br><span class="line">    - pushes</span><br><span class="line"></span><br><span class="line">.rspec:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake rspec</span><br><span class="line"></span><br><span class="line">rspec 1:</span><br><span class="line">  variables:</span><br><span class="line">    RSPEC_SUITE: &apos;1&apos;</span><br><span class="line">  extends: .rspec</span><br><span class="line"></span><br><span class="line">rspec 2:</span><br><span class="line">  variables:</span><br><span class="line">    RSPEC_SUITE: &apos;2&apos;</span><br><span class="line">  extends: .rspec</span><br><span class="line"></span><br><span class="line">spinach:</span><br><span class="line">  extends: .tests</span><br><span class="line">  script: rake spinach</span><br></pre></td></tr></table></figure>
+<p>extends 跨配置文件结合使用 include 。</p>
+<p><strong>YAML：</strong></p>
+<p>YAML有一个名为“anchors”的便捷功能，可让您轻松复制文档中的内容。Anchor可用于复制/继承属性，是与隐藏键 一起使<br>用以提供作业模板的完美示例。</p>
+<p>以下示例使用锚点和映射合并。它将创建两个作业， test1并且test2将继承参数.job_template，每个作业都有自己定义的自<br>script定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">.job_template: &amp;job_definition  # Hidden key that defines an anchor named &apos;job_definition&apos;</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line"></span><br><span class="line">test1:</span><br><span class="line">  &lt;&lt;: *job_definition           # Merge the contents of the &apos;job_definition&apos; alias</span><br><span class="line">  script:</span><br><span class="line">    - test1 project</span><br><span class="line"></span><br><span class="line">test2:</span><br><span class="line">  &lt;&lt;: *job_definition           # Merge the contents of the &apos;job_definition&apos; alias</span><br><span class="line">  script:</span><br><span class="line">    - test2 project</span><br></pre></td></tr></table></figure>
+<p>&amp; 设置 anchor（job_definition）的名称，&lt;&lt; 意味着“将给定的哈希合并到当前的哈希”，并 * 包括命名锚（ job_definition ）。扩展版本如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.job_template:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line"></span><br><span class="line">test1:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line">  script:</span><br><span class="line">    - test1 project</span><br><span class="line"></span><br><span class="line">test2:</span><br><span class="line">  image: ruby:2.1</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - redis</span><br><span class="line">  script:</span><br><span class="line">    - test2 project</span><br></pre></td></tr></table></figure>
+<p>让我们看另一个例子。这次我们将使用锚来定义两组服务。这将创建两个作业，test:postgres 并且 test:mysql，将共享 script 中定义的指令 .job_template，并 services 指令定义 .postgres_services 和 .mysql_services 分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">.job_template: &amp;job_definition</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line"></span><br><span class="line">.postgres_services:</span><br><span class="line">  services: &amp;postgres_definition</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">.mysql_services:</span><br><span class="line">  services: &amp;mysql_definition</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:postgres:</span><br><span class="line">  &lt;&lt;: *job_definition</span><br><span class="line">  services: *postgres_definition</span><br><span class="line"></span><br><span class="line">test:mysql:</span><br><span class="line">  &lt;&lt;: *job_definition</span><br><span class="line">  services: *mysql_definition</span><br></pre></td></tr></table></figure>
+<p>扩展版本如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">.job_template:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line"></span><br><span class="line">.postgres_services:</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">.mysql_services:</span><br><span class="line">  services:</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:postgres:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line">  services:</span><br><span class="line">    - postgres</span><br><span class="line">    - ruby</span><br><span class="line"></span><br><span class="line">test:mysql:</span><br><span class="line">  script:</span><br><span class="line">    - test project</span><br><span class="line">  services:</span><br><span class="line">    - mysql</span><br><span class="line">    - ruby</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><strong>pages</strong></p>
+<p>pages 是一项特殊工作，用于将静态内容上传到 GitLab，可用于为您的网站提供服务。它有一个特殊的语法，因此必须满足以下两个要求：</p>
+<ul>
+<li>任何静态内容都必须放在 public/ 目录下</li>
+<li>artifactspublic/ 必须定义目录的路径</li>
+</ul>
+<p>下面的示例只是将项目根目录中的所有文件移动到 public/ 目录中。该 .public 解决方法是这样 cp 不也复制 public/ 到自身无限循环：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">pages:</span><br><span class="line">  stage: deploy</span><br><span class="line">  script:</span><br><span class="line">    - mkdir .public</span><br><span class="line">    - cp -r * .public</span><br><span class="line">    - mv .public public</span><br><span class="line">  artifacts:</span><br><span class="line">    paths:</span><br><span class="line">      - public</span><br><span class="line">  only:</span><br><span class="line">    - master</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    
+      <div>
+        <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;margin: 20px 0 0;">-------------正文到此结束<i class="fa fa-paw"></i>转载请注明原址-------------</div>
+    
+</div>
+      </div>
+      <div>
+        
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/GitLab/" rel="tag"># GitLab</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/17/router4_redux/" rel="next" title="Router@4.0 + Redux 配置使用">
+                <i class="fa fa-chevron-left"></i> Router@4.0 + Redux 配置使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="安冉" />
+            
+              <p class="site-author-name" itemprop="name">安冉</p>
+              <p class="site-description motion-element" itemprop="description">温佳伟的个人博客<安冉></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/lwpersonal" target="_blank" title="GitHub">
+                      GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/xue-wu-zhi-jing-9-15/activities" target="_blank" title="知乎">
+                      知乎</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/u/dc0cf2cb01f8" target="_blank" title="简书">
+                      简书</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://me.csdn.net/qq_25243451" target="_blank" title="CSDN">
+                      CSDN</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://segmentfault.com/u/lwpersonal" target="_blank" title="SegmentFault">
+                      SegmentFault</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://juejin.im/user/58c7826744d904006808e3d4" target="_blank" title="掘金">
+                      掘金</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/oQCXjovhhoCpBUf" target="_blank" title="Twitter">
+                      Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.facebook.com/profile.php?id=100015842580113" target="_blank" title="FaceBook">
+                      FaceBook</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+
+  <div class="">
+    <span id="busuanzi_container_site_uv">
+      本站总访问量&nbsp;<span id="busuanzi_value_site_pv"></span>&nbsp;次
+    </span>
+  </div>
+
+
+
+  <div class="theme-info">
+    <div class="powered-by"></div>
+    <span class="post-count">博客全站共&nbsp;28.7k&nbsp;字</span>
+  </div>
+
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#job"><span class="nav-number">1.</span> <span class="nav-text">job</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">安冉</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+    <script type="text/javascript">
+    (function(){
+      var appid = 'cytQ99i30';
+      var conf = '77eda6405b43078162120f53cb1c849f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){
+        window.changyan.api.config({appid:appid,conf:conf})});
+      }
+    })();
+    </script>
+    <!-- <script type="text/javascript" src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script> -->
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
